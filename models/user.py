@@ -30,3 +30,4 @@ class User(BaseModel, Base, UserMixin):
     projects = relationship("Project", backref="user", cascade="all, delete")
     profile = relationship("Profile", backref="user", cascade="all, delete")
     tags = relationship("Tag", secondary=user_tag, viewonly=False)
+    comments = relationship("Comment", backref="user", cascade="all, delete")

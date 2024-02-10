@@ -11,6 +11,6 @@ suited for their next projects or improve curent ones.
 - **Better documentation**
 - **Comprehensive README**
 - **REST-API**
-- **Comments**
-- **Messing**
+- ~~Comments~~
+- **Messging**
 - **Deployment**

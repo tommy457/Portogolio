@@ -51,9 +51,12 @@ footer {
 
 a {
   text-decoration: none;
+
 }
-a:visited {
-  color: #000;
+.comment-author a {
+  color: #B3B8CD;
+  font-size: 20px;
+  text-align: left;
 }
 
 .user-stories {
@@ -107,6 +110,9 @@ a:visited {
   gap: 10px;
   background: none;
   border-radius: 20px;
+  padding-top: 50px;
+  position: fixed;
+
   transform: translate(136%, 2%);
   text-align: center;
 }
@@ -431,5 +437,50 @@ button.primary-edit {
   margin-top: 5px;
 }
 
+.comments-section {
+  padding-top: 50px;
+  width: 60%;
+  margin: 0 auto;
+}
+
+.comment {
+  border: 1px solid #ddd;
+  padding: 10px;
+  margin-bottom: 15px;
+  background-color: #4f537b;
+}
+
+.comment-author {
+  font-weight: bold;
+}
+
+.comment-date {
+  font-size: 1em;
+  color: #4caf50;
+}
+
+.comment-text {
+  margin-top: 8px;
+  font-size: 25px;
+  color: rgb(255, 255, 255);
+}
+
+.comment-form {
+  margin-top: 20px;
+}
+
+.comment-form textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.comment-form input[type="submit"] {
+  background-color: #4caf50;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  cursor: pointer;
+}
 
 

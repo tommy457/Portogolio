@@ -10,7 +10,7 @@
         {{ form.background_image(class='', type='file', accept='image/*',  onchange="readURL(this)") }}
     </div>
     {% if not project %}
-        <img src="{{ url_for('static', filename='project_images/default.jpg') }}" id="output" width="900" alt="nONE"/>
+        <img src="{{ url_for('static', filename='project_images/default.png') }}" id="output" width="900" alt="nONE"/>
     {% else %}
         <img src="{{ url_for('static', filename='project_images/' + project.background_image) }}" id="output" width="900" alt="nONE"/>
 
@@ -62,6 +62,35 @@
             </ul>
         </div>
     </div>
+</div>
+<div class="comments-section">
+    <h2>Comments</h2>
+        {% for comment in comments %}
+        <div class="comment">
+            <div class="comment-author">
+                <a href="{{ url_for('profile', user_id=comment.user.id) }}" >@{{ comment.user.username }}</a>
+            </div>
+            <div class="comment-date">{{ comment.user.created_at }}</div>
+            <div class="comment-text">
+                {{ comment.body }}
+            </div>
+        </div>
+
+        {% endfor %}
+        {% if current_user.is_authenticated %}
+        <form class="form-project form-update" method="POST" action="">
+            {{ form.hidden_tag() }}
+            <label>
+                {{ form.body(class="input") }}
+                <span>comment</span>
+            </label>
+            <label>
+                {{ form.submit(class="input submit") }}
+            </label>
+        </form>
+        {% endif %}
+    </div>
+
 </div>
 {% endif %}
 

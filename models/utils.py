@@ -8,7 +8,7 @@ import secrets
 
 
 def save_picture(form_picture, path, app, prev=None):
-    if prev and prev != "default.jpg":
+    if prev and prev != "default.png":
         os.remove(path='static/{}/{}'.format(path, prev))
     print("IN")
     if form_picture:
@@ -25,6 +25,7 @@ def save_picture(form_picture, path, app, prev=None):
         i.save(picture_path)
         print("saved")
         return picture_fn
+
 
 def format_skills(data):
     """helper function for formatting text"""

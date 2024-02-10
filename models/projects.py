@@ -27,8 +27,11 @@ class Project(BaseModel, Base):
     background_image = Column(
         String(20),
         nullable=False,
-        default="default.jpg")
+        default="default.png")
     github_link = Column(String(128), nullable=False)
     demo_link = Column(String(128))
     tags = Column(JSON)
+    comments = relationship("Comment",
+                            backref="project",
+                            cascade="all, delete")
     user_id = Column(String(60), ForeignKey('users.id'), nullable=False)

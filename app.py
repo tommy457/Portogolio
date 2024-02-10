@@ -9,7 +9,9 @@ from flask_login import LoginManager
 from models.forms import (RegistrationForm,
                           LoginForm,
                           ProfileUpdateForm,
-                          ProjectCreateForm)
+                          ProjectCreateForm,
+                          CommentForm)
+from models.comment import Comment
 from models.profile import Profile
 from models.projects import Project
 from models.user import User
@@ -178,14 +180,36 @@ def create_project(user_id):
 
 @app.route("/profile/<user_id>/show/<project_id>",
            strict_slashes=False,
-           methods=["GET"])
+           methods=["GET", "POST"])
 def show_project(user_id, project_id):
     """renders a singel project page"""
     profile = storage.get_by_fk(Profile, user_id)
     project = storage.get(Project, project_id)
+    comments = storage.get_all_comments(project_id=project_id)
 
-    return render_template("project.html", project=project, title=project.name)
-
+    if current_user.is_authenticated:
+        form = CommentForm()
+        if form.validate_on_submit():
+            comment = Comment(body=form.body.data,
+                              user_id=current_user.id,
+                              project_id=project_id,
+                              )
+            storage.new(comment)
+            print(comment)
+            storage.save()
+            return redirect(url_for("show_project",
+                                    user_id=user_id,
+                                    project_id=project_id,
+                                    ))
+        return render_template("project.html",
+                           form=form,
+                           project=project,
+                           comments=comments
+                           )
+    return render_template("project.html",
+                           project=project,
+                           comments=comments,
+                           title=project.name)
 
 @app.route("/profile/<user_id>/edit/<project_id>",
            strict_slashes=False,

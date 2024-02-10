@@ -63,3 +63,8 @@ class ProjectCreateForm(FlaskForm):
                                  validators=[FileAllowed(['jpg', 'png'])])
     tags = StringField("Tags ('comma-separated')", validators=[DataRequired()])
     submit = SubmitField('Save')
+
+
+class CommentForm(FlaskForm):
+    body = StringField('Body', validators=[DataRequired(Length(max=512))])
+    submit = SubmitField('Post')

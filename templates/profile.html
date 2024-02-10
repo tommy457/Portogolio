@@ -78,20 +78,11 @@
             <div class="para">
                 {{ project.description }}
             </div>
-            <h4>Tags</h4>
+            <h4>Tech Stack</h4>
             <ul>
-                <li>UI / UX</li>
-                <li>Front End Development</li>
-                <li>HTML</li>
-                <li>CSS</li>
-                <li>JavaScript</li>
-                <li>React</li>
-                <li>Node</li>
-                <li>UI / UX</li>
-                <li>Front End Development</li>
-                <li>HTML</li>
-                <li>CSS</li>
-
+                {% for tag in project.tags %}
+                <li>{{ tag }}</li>
+                {% endfor %}
             </ul>
         </div>
         <div class="buttons">

@@ -7,6 +7,7 @@ import os
 from models.user import User
 from models.profile import Profile
 from models.projects import Project
+from models.comment import Comment
 import models
 
 classes = {"User": User, "Profile": Profile, "Project": Project}
@@ -107,3 +108,13 @@ class DBStorage:
             if (value.user_id == fk_id):
                 return value
         return None
+
+    def get_all_comments(self, project_id):
+        """
+        Returns the comment object based on the user_id and project_id, or
+        None if not found
+        """
+        comments = self.__session.query(Comment).\
+            filter_by(project_id=project_id).\
+                order_by(Comment.created_at.desc()).all()
+        return comments

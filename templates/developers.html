@@ -4,10 +4,10 @@
 <div class="developers">
     {% for user in users %}
     <div class="card-container">
-        <img class="round" src="https://randomuser.me/api/portraits/lego/2.jpg" alt="user" />
+        <img class="round" src="{{ url_for('static', filename='images/' + user.profile_pic) }}" alt="user" />
         <h3>{{ user.username }}</h3>
-        <h6>New York</h6>
-        <p>User interface designer and <br/> front-end developer</p>
+        <h6>{{ user.country }}</h6>
+        <p>{{ user.role }}</p>
         <div class="buttons">
             <button class="primary">
                 <a href="#" >Message</a>
