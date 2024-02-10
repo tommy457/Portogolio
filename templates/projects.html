@@ -1,0 +1,38 @@
+{% extends "index.html" %}
+
+{% block content %}
+{% for project in projects %}
+<div class="projects">
+    <div class="project-display">
+        <img class="flat" src="{{ url_for('static', filename='project_images/' + project.background_image) }}" alt="user" />
+        <h3>{{  project.user.username}}</h3>
+
+        <div class="buttons">
+            <button class="primary">
+                <a href="{{ url_for('show_project', user_id=project.user.id, project_id=project.id) }}" >SHOW</a>
+            </button>
+            <button class="primary">
+                <a href="{{ url_for('profile', user_id=project.user.id) }}" >Profile</a>
+            </button>
+        </div>
+        <div class="skills">
+            <h3>{{ project.name }}</h3>
+            <a href="{{ project.github_link }}">Github -- </a>
+            <a href="{{ project.demo_link }}">Demo</a>
+            <div class="para">
+                <h4>Description:</h4>
+                {{ project.description }}
+            </div>
+
+
+            <h4>Tags</h4>
+            <ul>
+                {% for tag in project.tags %}
+                <li>{{ tag }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+</div>
+{% endfor %}
+
+{% endblock content %}

@@ -1,0 +1,435 @@
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #3b3d57;
+  box-sizing: border-box;
+  color: #71c6dd;
+
+}
+
+header {
+  height: 70px;
+  width: 100%;
+  z-index: 50;
+  background-color: #4f537b;
+  box-shadow: #4f537b;
+}
+
+footer {
+  align-items: center;
+  height: 60px;
+  width: 100%;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+}
+
+.start {
+  height: 750px;
+}
+
+.container {
+  display: flex;
+  height: 100%;
+}
+
+.land-page {
+  margin-left: 5em;
+  width: 50%;
+  padding-top: 50px;
+}
+
+.land-page h1 {
+  font-size: 60px;
+  margin-bottom: 20px;
+}
+
+.land-page p {
+  font-size: 25px;
+  margin-top: 0px;
+}
+
+a {
+  text-decoration: none;
+}
+a:visited {
+  color: #000;
+}
+
+.user-stories {
+  display: flex;
+}
+
+.land-page button {
+  border-radius: 8px;
+  border-style: none;
+  box-sizing: border-box;
+  color: #390d0d;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  height: 2rem;
+  padding: 0 1.6rem;
+  text-align: center;
+  text-shadow: rgba(0, 0, 0, 0.25) 0 3px 8px;
+  text-decoration: none;
+}
+
+.land-page button:hover {
+  background-color: #fddb3a;
+  color: #1f0505;
+}
+
+.navMenu {
+  text-align: center;
+}
+
+.navMenu a {
+  color: #f6f4e6;
+  text-decoration: none;
+  font-size: 1.2em;
+  text-transform: uppercase;
+  font-weight: 500;
+  display: inline-block;
+  padding-top: 20px;
+  margin: 5px;
+  justify-content: center;
+  padding-right: 120px;
+}
+
+.navMenu a:hover {
+  color: #fddb3a;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: none;
+  border-radius: 20px;
+  transform: translate(136%, 2%);
+  text-align: center;
+}
+
+.title {
+  font-size: 28px;
+  color: royalblue;
+  font-weight: 600;
+  letter-spacing: -1px;
+  align-items: center;
+  margin-bottom: 0px;
+  width: 10em;
+}
+
+
+.message,
+.signin {
+  color: rgba(255, 255, 255, 0.822);
+  font-size: 20px;
+}
+
+.signin {
+  text-align: center;
+}
+
+.signin a {
+  color: royalblue;
+}
+
+.signin a:hover {
+  text-decoration: underline royalblue;
+}
+
+.flex {
+  width: 100%;
+  gap: 6px;
+}
+
+.form label {
+  position: relative;
+}
+
+.form label .input {
+  width: 93%;
+  padding: 10px 10px 20px 10px;
+  outline: 0;
+  border: 1px solid rgba(105, 105, 105, 0.397);
+  border-radius: 10px;
+}
+
+.form label .input+span {
+  position: absolute;
+  left: 10px;
+  top: 15px;
+  color: grey;
+  font-size: 0.9em;
+  cursor: text;
+  transition: 0.3s ease;
+}
+
+.form label .input:placeholder-shown+span {
+  top: 15px;
+  font-size: 0.9em;
+}
+
+.form label .input:focus+span,
+.form label .input:valid+span {
+  top: 30px;
+  font-size: 0.7em;
+  font-weight: 600;
+}
+
+
+.submit {
+  border: none;
+  outline: none;
+  background-color: rgb(0, 60, 255);
+  padding: 10px;
+  border-radius: 20px;
+  color: #fff;
+  font-size: 16px;
+  transform: .3s ease;
+}
+
+.submit:hover {
+  background-color: #fddb3a;
+}
+
+@keyframes pulse {
+  from {
+    transform: scale(0.9);
+    opacity: 1;
+  }
+
+  to {
+    transform: scale(1.8);
+    opacity: 0;
+  }
+}
+
+
+h3 {
+	margin: 10px 0;
+}
+
+h6 {
+	margin: 5px 0;
+	text-transform: uppercase;
+}
+
+p {
+	font-size: 20fpx;
+	line-height: 21px;
+}
+
+.card-container {
+	background-color: rgb(7, 3, 34);
+	border-radius: 5px;
+	box-shadow: 10px 20px 50px 10px rgb(10, 20, 90);
+	color: #B3B8CD;
+	position: relative;
+	width: 390px;
+	text-align: center;
+  padding: 20px;
+  margin: 20px 20px 20px 20px;
+}
+
+.round {
+	padding: 7px;
+  max-width: 120px;
+}
+
+.profile-container {
+  display: flex;
+  padding: 20px;
+  margin: 20px 20px 20px 20px;
+  padding-right: 20em;
+}
+
+.profile-container-non {
+  display: flex;
+  padding: 20px;
+  margin: 20px 20px 20px 20px;
+}
+
+button.primary {
+	border: 1px solid #3d5456;
+	border-radius: 3px;
+	font-weight: 900;
+  font-size: 15px;
+	padding: 10px 25px;
+
+}
+
+button:hover{
+  background-color: #fddb3a;
+  color: #1f0505;
+}
+
+
+.developers{
+  display: inline-flex;
+  width: 100%;
+  flex-wrap: wrap;
+  justify-content:center;
+
+}
+
+.skills {
+	background-color: #000000;
+	text-align: left;
+	padding: 15px;
+}
+
+.skills ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+
+.skills ul li {
+	border: 1px solid #2D2747;
+	border-radius: 2px;
+	display: inline-block;
+	font-size: 12px;
+	margin: 0 7px 7px 0;
+	padding: 7px;
+}
+
+.project-container {
+  display: flex;
+	background-color: rgb(7, 3, 34);
+	border-radius: 5px;
+	box-shadow: 10px 20px 50px 10px rgb(10, 20, 90);
+	color: #B3B8CD;
+	position: relative;
+	text-align: center;
+  padding: 20px;
+  margin: 20px 20px 20px 20px;
+}
+.para {
+  overflow-wrap: break-word;
+}
+
+button.primary-edit {
+	border: 1px solid #3d5456;
+	border-radius: 3px;
+	font-weight: 900;
+  font-size: 15px;
+	padding: 10px 25px;
+  width: 100px;
+}
+.submit {
+  border: none;
+  outline: none;
+  background-color: rgb(0, 60, 255);
+  padding: 10px;
+  border-radius: 20px;
+  color: #fff;
+  font-size: 16px;
+  transform: .3s ease;
+}
+.profile-info {
+  width: 50%;
+
+}
+.profile-info-non {
+  text-align: center;
+  width: 100%;
+}
+
+.textarea  {
+  width: 51%;
+  height: 200px;
+  padding: 12px 20px;
+  box-sizing: border-box;
+  border: 2px solid #ccc;
+  border-radius: 10px;
+  border: 1px solid rgba(105, 105, 105, 0.397);
+  font-size: 16px;
+  resize: none;
+}
+
+.form-project  {
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+  gap: 10px;
+  background: none;
+  position: inherit;
+  transform: translate(20%);
+}
+
+.form-project label {
+  position: relative;
+}
+
+.form-project label .input {
+  width: 50%;
+  padding: 10px 10px 20px 10px;
+  outline: 0;
+  border: 1px solid rgba(105, 105, 105, 0.397);
+  border-radius: 10px;
+}
+
+.form-project label .input+span {
+  position: absolute;
+  left: 10px;
+  top: 15px;
+  color: grey;
+  font-size: 0.9em;
+  cursor: text;
+  transition: 0.3s ease;
+}
+
+.form-project label .input:placeholder-shown+span {
+  top: 15px;
+  font-size: 0.9em;
+}
+
+.form-project label .input:focus+span,
+.form-project label .input:valid+span {
+  top: 30px;
+  font-size: 0.7em;
+  font-weight: 600;
+}
+
+.form-project-update  {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  position: relative;
+  padding-top: 1px;
+}
+
+.project-display {
+	background-color: rgb(7, 3, 34);
+	border-radius: 5px;
+	box-shadow: 10px 20px 50px 10px rgb(10, 20, 90);
+	color: #B3B8CD;
+	position: relative;
+	text-align: center;
+  padding: 20px;
+  margin: 20px 20px 20px 20px;
+}
+.project-display .skills ul li {
+  font-size: 20px;
+
+}
+
+.projects {
+  display: flex;
+  flex-direction: column;
+}
+.skills a {
+  color: #00c8ff;
+  font-size: 25px;
+}
+
+.error {
+  color: red;
+  margin-top: 5px;
+}
+
+
+

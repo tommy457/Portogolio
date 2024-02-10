@@ -1,0 +1,27 @@
+{% extends "index.html" %}
+{% block content %}
+<form class="form" method="POST" action="">
+    <p class="title">Log In </p>
+    {{ form.hidden_tag() }}
+    <p class="message">Log In now and get full access to our app. </p>
+
+    <label>
+        {{ form.email(class="input") }}
+        <span>Email</span>
+    </label>
+    {% if form.email.errors %}
+    <p class="error">{{ form.email.errors[0] }}</p>
+    {% endif %}
+
+    <label>
+        {{ form.password(class="input") }}
+        <span>Password</span>
+    </label>
+    {% if form.password.errors %}
+    <p class="error">{{ form.password.errors[0] }}</p>
+    {% endif %}
+
+    {{ form.submit(class="submit") }}
+    <p class="signin">Nedd an acount ? <a href="/register">Register</a> </p>
+</form>
+{% endblock content %}

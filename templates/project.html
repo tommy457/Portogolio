@@ -1,0 +1,68 @@
+{% extends "index.html" %}
+
+{% block content %}
+<p class="title">{{ title }} </p>
+{% if is_authorized %}
+
+<form class="form-project form-update" method="POST" action="" enctype="multipart/form-data">
+    {{ form.hidden_tag() }}
+    <div class="project-image">
+        {{ form.background_image(class='', type='file', accept='image/*',  onchange="readURL(this)") }}
+    </div>
+    {% if not project %}
+        <img src="{{ url_for('static', filename='project_images/default.jpg') }}" id="output" width="900" alt="nONE"/>
+    {% else %}
+        <img src="{{ url_for('static', filename='project_images/' + project.background_image) }}" id="output" width="900" alt="nONE"/>
+
+    {% endif %}
+    <label>
+        {{ form.name(class="input") }}
+        <span>Title</span>
+    </label>
+
+    <label>
+        {{ form.description(class="textarea input") }}
+        <span>Project Description</span>
+    </label>
+
+    <label>
+
+        {{ form.tags(class="input") }}
+        <span>Skills (comma-separatted eg: Python, Javascrip, ...)</span>
+    </label>
+
+    <label>
+        {{ form.github_link(class="input") }}
+        <span>Github</span>
+    </label>
+
+    <label>
+        {{ form.demo_link(class="input") }}
+        <span>Demo Link (Optional)</span>
+    </label>
+    <label>
+        {{ form.submit(class="input submit") }}
+    </label>
+
+</form>
+{% else %}
+<div class="developers">
+    <div class="project-display">
+        <img class="flat" src="{{ url_for('static', filename='project_images/' + project.background_image) }}" alt="user" />
+        <div class="skills">
+            <h3>{{ project.name }}</h3>
+            <div class="para">
+                {{ project.description }}
+            </div>
+            <h4>Skills</h4>
+            <ul>
+                {% for tag in project.tags %}
+                <li>{{ tag }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+{% endblock content %}

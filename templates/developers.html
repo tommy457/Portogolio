@@ -1,0 +1,41 @@
+{% extends "index.html" %}
+
+{% block content %}
+<div class="developers">
+    {% for user in users %}
+    <div class="card-container">
+        <img class="round" src="https://randomuser.me/api/portraits/lego/2.jpg" alt="user" />
+        <h3>{{ user.username }}</h3>
+        <h6>New York</h6>
+        <p>User interface designer and <br/> front-end developer</p>
+        <div class="buttons">
+            <button class="primary">
+                <a href="#" >Message</a>
+            </button>
+            <button class="primary">
+                <a href="{{ url_for('profile', user_id=user.id ) }}" >Profile</a>
+            </button>
+        </div>
+        <div class="skills">
+            <h6>Skills</h6>
+            <ul>
+                <li>UI / UX</li>
+                <li>Front End Development</li>
+                <li>HTML</li>
+                <li>CSS</li>
+                <li>JavaScript</li>
+                <li>React</li>
+                <li>Node</li>
+                <li>UI / UX</li>
+                <li>Front End Development</li>
+                <li>HTML</li>
+                <li>CSS</li>
+                <li>JavaScript</li>
+                <li>React</li>
+                <li>Node</li>
+            </ul>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock content %}

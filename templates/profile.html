@@ -1,0 +1,113 @@
+{% extends "index.html" %}
+
+{% block content %}
+<div class="{{ cll_2 }}">
+    <div class="{{ cll_1 }}">
+        <img class="round" src="{{ url_for('static', filename='images/' + user.profile_pic) }}" alt=""/>
+        <h3>{{ user.username }}</h3>
+        <h6>{{ user.country }}</h6>
+        <p>{{ user.role }}</p>
+        <div class="buttons">
+
+            <button class="primary">
+                <a href="#" >Message</a>
+            </button>
+            {% if is_authorized %}
+            <button class="primary">
+                <a href="{{ url_for('profile', user_id=user.id + '/create_project') }}" >New Project</a>
+            </button>
+            {% endif %}
+
+        </div>
+    {% if is_authorized %}
+    </div>
+        <form class="form form-update" method="POST" action="" enctype="multipart/form-data">
+            <p class="title">Profile Info </p>
+            {{ form.hidden_tag() }}
+            <label>
+                <span>Username</span>
+                {{ form.username(class="input") }}
+            </label>
+            <label>
+                <span>Email</span>
+                {{ form.email(class="input") }}
+            </label>
+            <label>
+                <span>country</span>
+                {{ form.country(class="input") }}
+            </label>
+            <label>
+                <span>Role</span>
+                {{ form.role(class="input") }}
+            </label>
+            <label>
+                <span>Profile pic</span>
+                {{ form.profile_pic(class="input", type='file', accept='image/*') }}
+            </label>
+            {{ form.submit(class="submit") }}
+        </form>
+    </div>
+{% endif %}
+<div class="skills">
+    <h6>Skills</h6>
+    <ul>
+        <li>UI / UX</li>
+        <li>Front End Development</li>
+        <li>HTML</li>
+        <li>CSS</li>
+        <li>JavaScript</li>
+        <li>React</li>
+        <li>Node</li>
+        <li>UI / UX</li>
+        <li>Front End Development</li>
+        <li>HTML</li>
+        <li>CSS</li>
+        <li>JavaScript</li>
+        <li>React</li>
+        <li>Node</li>
+    </ul>
+</div>
+<h1 class="developers">{{ user.username }}'s Projects</h1>
+
+<div class="developers">
+    {% for project in projects %}
+    <div class="project-container">
+        <img class="flat" src="{{ url_for('static', filename='project_images/' + project.background_image) }}" alt="user" />
+        <div class="skills">
+            <h3>{{ project.name }}</h3>
+            <div class="para">
+                {{ project.description }}
+            </div>
+            <h4>Tags</h4>
+            <ul>
+                <li>UI / UX</li>
+                <li>Front End Development</li>
+                <li>HTML</li>
+                <li>CSS</li>
+                <li>JavaScript</li>
+                <li>React</li>
+                <li>Node</li>
+                <li>UI / UX</li>
+                <li>Front End Development</li>
+                <li>HTML</li>
+                <li>CSS</li>
+
+            </ul>
+        </div>
+        <div class="buttons">
+            <button class="primary">
+                <a href="{{ url_for('show_project', user_id=user.id, project_id=project.id ) }}" >SHOW</a>
+            </button>
+            {% if is_authorized %}
+            <button class="primary-edit">
+                <a href="{{ url_for('edit_project', user_id=user.id, project_id=project.id ) }}" >EDIT</a>
+            </button>
+            <button class="primary">
+                <a href="{{ url_for('delete_project', user_id=user.id, project_id=project.id ) }}" >Delete</a>
+            </button>
+            {% endif %}
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock content %}
