@@ -21,27 +21,31 @@
         </div>
     {% if is_authorized %}
     </div>
-        <form class="form form-update" method="POST" action="" enctype="multipart/form-data">
+        <form class="info-form" method="POST" action="" enctype="multipart/form-data">
             <p class="title">Profile Info </p>
             {{ form.hidden_tag() }}
             <label>
-                <span>Username</span>
                 {{ form.username(class="input") }}
+                <span>Username</span>
+
             </label>
             <label>
-                <span>Email</span>
                 {{ form.email(class="input") }}
+                <span>Email</span>
+
             </label>
             <label>
-                <span>country</span>
+
                 {{ form.country(class="input") }}
+                <span>country</span>
             </label>
             <label>
-                <span>Role</span>
                 {{ form.role(class="input") }}
+                <span>Role</span>
             </label>
             <label>
                 <span>Profile pic</span>
+
                 {{ form.profile_pic(class="input", type='file', accept='image/*') }}
             </label>
             {{ form.submit(class="submit") }}
@@ -76,7 +80,9 @@
         <div class="skills">
             <h3>{{ project.name }}</h3>
             <div class="para">
-                {{ project.description }}
+                <p>{{ project.description[:200] }}
+                    ...<a href="{{ url_for('show_project', user_id=user.id, project_id=project.id ) }}" >See More</a>
+                </p>
             </div>
             <h4>Tech Stack</h4>
             <ul>

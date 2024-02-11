@@ -115,6 +115,7 @@ def register():
         user = User(username=form.username.data,
                     email=form.email.data,
                     role=form.role.data,
+                    country=form.country.data,
                     password=form.password.data)
         profile = Profile(user_id=user.id)
         storage.new(user)

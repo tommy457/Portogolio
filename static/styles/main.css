@@ -316,6 +316,9 @@ button:hover{
 .para {
   overflow-wrap: break-word;
 }
+.para p > a {
+  font-size: 15px;
+}
 
 button.primary-edit {
 	border: 1px solid #3d5456;
@@ -483,4 +486,55 @@ button.primary-edit {
   cursor: pointer;
 }
 
+.info-form  {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: none;
+  border-radius: 20px;
+  transform: translate(136%, 2%);
+  text-align: center;
+}
 
+.info-form label {
+  position: relative;
+}
+
+.info-form label .input {
+  width: 93%;
+  padding: 10px 10px 20px 10px;
+  outline: 0;
+  border: 1px solid rgba(105, 105, 105, 0.397);
+  border-radius: 10px;
+  text-align: center;
+}
+
+.info-form label .input+span {
+  position: absolute;
+  left: 10px;
+  top: 15px;
+  color: grey;
+  font-size: 0.9em;
+  cursor: text;
+  transition: 0.3s ease;
+}
+
+.info-form label .input:placeholder-shown+span {
+  top: 15px;
+  font-size: 0.9em;
+}
+
+.info-form label .input:focus+span,
+.info-form label .input:valid+span {
+  top: 30px;
+  font-size: 0.7em;
+  font-weight: 600;
+}
+
+.info-form-update  {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  position: relative;
+  padding-top: 1px;
+}

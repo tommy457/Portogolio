@@ -19,7 +19,11 @@ def save_picture(form_picture, path, app, prev=None):
                                     'static/{}'.format(path),
                                     picture_fn)
 
-        output_size = (900, 900)
+        if path == "images":
+            output_size = (134, 134)
+        elif path == "project_images":
+            output_size = (900, 900)
+
         i = Image.open(form_picture)
         i.thumbnail(output_size)
         i.save(picture_path)

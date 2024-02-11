@@ -19,6 +19,8 @@ class RegistrationForm(FlaskForm):
                         validators=[DataRequired(), Email()])
     role = StringField('Role', validators=[DataRequired(),
                                            Length(min=2, max=20)])
+    country = StringField('Country', validators=[DataRequired(),
+                                           Length(min=2, max=20)])
     password = PasswordField('Password', validators=[DataRequired()])
     confirm_password = PasswordField('Confirm Password',
                                      validators=[DataRequired(),
@@ -46,7 +48,7 @@ class ProfileUpdateForm(FlaskForm):
     profile_pic = FileField('Profile pic',
                             validators=[FileAllowed(['jpg', 'png'])])
     country = StringField('Contry',
-                           validators=[Length(max=20)])
+                           validators=[DataRequired(), Length(max=20)])
     submit = SubmitField('Update')
 
 

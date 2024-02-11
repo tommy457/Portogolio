@@ -26,7 +26,6 @@
     </label>
 
     <label>
-
         {{ form.tags(class="input") }}
         <span>Skills (comma-separatted eg: Python, Javascrip, ...)</span>
     </label>
@@ -51,10 +50,12 @@
         <img class="flat" src="{{ url_for('static', filename='project_images/' + project.background_image) }}" alt="user" />
         <div class="skills">
             <h3>{{ project.name }}</h3>
+            <a href="{{ project.github_link }}">Github -- </a>
+            <a href="{{ project.demo_link }}">Demo</a>
             <div class="para">
                 {{ project.description }}
             </div>
-            <h4>Skills</h4>
+            <h4>Tech Stack</h4>
             <ul>
                 {% for tag in project.tags %}
                 <li>{{ tag }}</li>
