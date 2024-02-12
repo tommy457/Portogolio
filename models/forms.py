@@ -1,15 +1,20 @@
 #!/usr/bin/python3
 """This module defines a class RegistrationFormser and LoginForm"""
-
-
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed
+from flask_login import current_user
+from models import storage
 from wtforms import (StringField,
                      PasswordField,
                      SubmitField,
                      BooleanField,
                      TextAreaField)
-from wtforms.validators import DataRequired, Length, Email, EqualTo
+from wtforms.validators import (DataRequired,
+                                Length,
+                                Email,
+                                EqualTo,
+                                ValidationError)
+from models.user import User
 
 
 class RegistrationForm(FlaskForm):
@@ -26,6 +31,16 @@ class RegistrationForm(FlaskForm):
                                      validators=[DataRequired(),
                                                  EqualTo('password')])
     submit = SubmitField('Sign Up')
+
+    def validate_username(self, username):
+        user = storage.qurery_by_name(User, username.data)
+        if user:
+            raise ValidationError('Username already exists.')
+
+    def validate_email(self, email):
+        user = storage.qurery_by_email(User, email.data)
+        if user:
+            raise ValidationError('Email already exists.')
 
 
 class LoginForm(FlaskForm):
@@ -50,6 +65,19 @@ class ProfileUpdateForm(FlaskForm):
     country = StringField('Contry',
                            validators=[DataRequired(), Length(max=20)])
     submit = SubmitField('Update')
+
+    def validate_username(self, username):
+        if username.data != current_user.username:
+            user = storage.qurery_by_name(User, username.data)
+            if user:
+                raise ValidationError('Username already exists.')
+
+    def validate_email(self, email):
+        if email.data != current_user.email:
+
+            user = storage.qurery_by_email(User, email.data)
+            if user:
+                raise ValidationError('Email already exists.')
 
 
 class ProjectCreateForm(FlaskForm):

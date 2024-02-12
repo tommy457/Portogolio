@@ -78,7 +78,19 @@ class DBStorage:
             return None
 
         result = self.__session.query(User).filter_by(email=email).first()
-        return result or None
+        return result
+
+    def qurery_by_name(self, cls, username):
+        """
+        Returns the object based on the class name and its ID, or
+        None if not found
+        """
+        if cls not in classes.values():
+            return None
+
+        result = self.__session.query(User).filter_by(
+            username=username).first()
+        return result
 
     def get(self, cls, id):
         """
