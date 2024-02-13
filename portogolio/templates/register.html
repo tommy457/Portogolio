@@ -39,6 +39,9 @@
             {{ form.password(class="input") }}
             <span>Password</span>
         </label>
+        {% if form.password.errors %}
+        <p class="error">{{ form.password.errors[0] }}</p>
+        {% endif %}
         <label>
             {{ form.confirm_password(class="input") }}
             <span>Confirm password</span>
