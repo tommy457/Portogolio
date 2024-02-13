@@ -113,8 +113,23 @@
                 <a href="{{ url_for('edit_project', user_id=user.id, project_id=project.id ) }}" >EDIT</a>
             </button>
             <button class="primary">
-                <a href="{{ url_for('delete_project', user_id=user.id, project_id=project.id ) }}" >Delete</a>
+                <a class="primary" href="#confirmDeleteModal">Delete</a>
             </button>
+
+            <div class="modal" id="confirmDeleteModal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2>Confirm Deletion</h2>
+                    </div>
+                    <div class="modal-body">
+                        <p>Are you sure you want to delete {{ project.name }}?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="primary" id="cancelButton"><a href="#">Cancel</a></button>
+                        <button class="primary" id="confirmDelete"><a href="{{ url_for('delete_project', user_id=user.id, project_id=project.id ) }}">Delete</a></button>
+                    </div>
+                </div>
+            </div>
             {% endif %}
         </div>
     </div>
