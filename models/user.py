@@ -25,6 +25,8 @@ class User(BaseModel, Base, UserMixin):
     role = Column(String(32), nullable=False)
     country = Column(String(20), nullable=False)
     email = Column(String(128), unique=True, nullable=False)
+    github = Column(String(128), unique=True, nullable=False)
+    linkedin = Column(String(128), unique=True, nullable=False)
     password = Column(String(256), nullable=False)
     profile_pic = Column(String(20), nullable=False, default='default.png')
     projects = relationship("Project", backref="user", cascade="all, delete")

@@ -28,6 +28,24 @@
         {% endif %}
         </label>
         <label>
+            {{ form.github(class="input") }}
+            <span>Github</span>
+        </label>
+        {% if form.github.errors %}
+        <p class="error">{{ form.github.errors[0] }}</p>
+        {% endif %}
+        </label>
+
+        <label>
+            {{ form.linkedin(class="input") }}
+            <span>Linkedin</span>
+        </label>
+        {% if form.linkedin.errors %}
+        <p class="error">{{ form.linkedin.errors[0] }}</p>
+        {% endif %}
+        </label>
+
+        <label>
             {{ form.country(class="input") }}
             <span>Country</span>
         {% if form.country.errors %}

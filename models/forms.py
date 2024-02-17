@@ -8,12 +8,14 @@ from wtforms import (StringField,
                      PasswordField,
                      SubmitField,
                      BooleanField,
-                     TextAreaField)
+                     TextAreaField,
+                     URLField)
 from wtforms.validators import (DataRequired,
                                 Length,
                                 Email,
                                 EqualTo,
-                                ValidationError)
+                                ValidationError,
+                                URL)
 from models.user import User
 
 
@@ -26,6 +28,10 @@ class RegistrationForm(FlaskForm):
                                            Length(min=2, max=20)])
     country = StringField('Country', validators=[DataRequired(),
                                            Length(min=2, max=20)])
+    github = URLField('Github',
+                           validators=[DataRequired(), URL()])
+    linkedin = URLField('Linkedin',
+                           validators=[DataRequired(), URL()])
     password = PasswordField('Password', validators=[DataRequired()])
     confirm_password = PasswordField('Confirm Password',
                                      validators=[DataRequired(),
@@ -64,6 +70,10 @@ class ProfileUpdateForm(FlaskForm):
                             validators=[FileAllowed(['jpg', 'png'])])
     country = StringField('Contry',
                            validators=[DataRequired(), Length(max=20)])
+    github = URLField('Github',
+                           validators=[DataRequired(), URL()])
+    linkedin = URLField('Linkedin',
+                           validators=[DataRequired(), URL()])
     submit = SubmitField('Update')
 
     def validate_username(self, username):
@@ -83,10 +93,10 @@ class ProfileUpdateForm(FlaskForm):
 class ProjectCreateForm(FlaskForm):
     name = StringField('Name',
                            validators=[DataRequired(), Length(min=2, max=20)])
-    github_link = StringField('Github',
-                           validators=[DataRequired(), Length(min=2, max=128)])
-    demo_link = StringField('Demo',
-                           validators=[Length(max=128)])
+    github_link = URLField('Github',
+                           validators=[DataRequired(), URL()])
+    demo_link = URLField('Demo',
+                           validators=[URL()])
     description = TextAreaField('Description',
                         validators=[DataRequired(), Length(min=2, max=2000)])
     background_image = FileField('Background image',

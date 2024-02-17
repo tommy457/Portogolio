@@ -23,6 +23,9 @@
     <label>
         {{ form.description(class="textarea input") }}
         <span>Project Description</span>
+        {% if form.description.errors %}
+        <p class="error">{{ form.description.errors[0] }}</p>
+        {% endif %}
     </label>
 
     <label>

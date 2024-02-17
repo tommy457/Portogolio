@@ -1,20 +1,74 @@
 {% extends "index.html" %}
 {% block content %}
-<section class="start">
-    <div class="container">
-        <div class="land-page">
-            <h1>Helping backend developers level up.</h1>
-            <p> </p>
-            <button>
-                <a href="/register">Get started</a>
-            </button>
-        </div>
 
+<div id="home" class="section">
+    <div class="content">
+        <h2>Welcome to Portogolio!</h2>
+        <p>Collaborate, share knowledge with backend developers.</p>
+        <button class="primary">
+            <a href="{{ url_for('projects') }}" class="cta-button">Explore</a>
+        </button>
     </div>
-</section>
-<div class="user-stories">
-    <h1>user stories</h1>
 </div>
-<footer>fotter</footer>
+<h2>Key Features</h2>
+
+<div class="developers">
+
+    <div class="card-container">
+        <img class="" src="/static/images/projects.png" />
+        <h2>Projects</h2>
+        <p>Showcase ongoing projects including technologies used, and challenges faced.</p>
+    </div>
+    <div class="card-container">
+        <img class="feat" src="/static/images/comments.png"/>
+        <h2>Comments</h2>
+        <p>Share constructive comments that highlight both strengths and areas for improvement.</p>
+    </div>
+
+
+</div>
+
+<div id="testimonials" class="section">
+    <h2>What Our Members Say</h2>
+    <div>
+        <p>"I love being part of this community. It has helped me grow as a backend developer."</p>
+        <p>- Adam Adamo, Junior Backend Developer</p>
+    </div>
+    <div>
+        <p>"The collaboration and knowledge sharing in this community are unparalleled."</p>
+        <p>- Mohamed Lamnie, Junior Backend Engineer</p>
+    </div>
+    <button class="primary">
+        <a href="{{ url_for('register') }}">Join Us Today</a>
+    </button>
+
+</div>
+
+<div id="about" class="about-section">
+    <h2>About Us</h2>
+    <p>As i dive in the backend specialization journey at ALX i wanted share this platform with my peers for collaboration, knowledge sharing, and professional growth<p>
+    <button class="primary">
+        <a href="https://github.com/tommy457/Portogolio">Source Code</a>
+    </button>
+</div>
+
+<footer>
+    <div class="footer-section contact-section">
+        <h3>Contact Us:</h3>
+        <p>Email: boukhalfaml1011@gmail.com</p>
+        <p>HQ: Algeria</p>
+    </div>
+
+    <div class="footer-section social-section">
+        <h3>Follow Us</h3>
+        <a href="https://twitter.com/Mohamed81973365" >Twitter</a>
+        <a href="https://github.com/tommy457" >Github</a>
+        <a href="https://www.linkedin.com/in/mohamed-lamine-boukhalfa/" >LinkedIn</a>
+    </div>
+
+
+
+</footer>
+
 
 {% endblock content %}

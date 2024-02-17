@@ -41,7 +41,7 @@ def login():
         user = storage.qurery_by_email(User, email=form.email.data)
         if user and check_password_hash(user.password, form.password.data):
             login_user(user, remember=form.remember.data)
-            return redirect(url_for('developers'))
+            return redirect(url_for('profile', user_id=user.id))
         else:
             flash('Login Unsuccessful. Please check email and password',
                   'danger')
@@ -69,10 +69,13 @@ def profile(user_id):
                                             prev=current_user.profile_pic)
             else:
                 picture_file = current_user.profile_pic
+
             current_user.username = form.username.data
             current_user.email = form.email.data
             current_user.country = form.country.data
             current_user.role = form.role.data
+            current_user.github = form.github.data
+            current_user.linkedin = form.linkedin.data
             current_user.profile_pic = picture_file
 
             storage.save()
@@ -82,6 +85,9 @@ def profile(user_id):
             form.email.data = current_user.email
             form.country.data = current_user.country
             form.role.data = current_user.role
+            form.github.data = current_user.github
+            form.linkedin.data = current_user.linkedin
+
             picture_file = current_user.profile_pic
         return render_template('profile.html', user=current_user,
                                form=form,
@@ -107,6 +113,8 @@ def register():
         user = User(username=form.username.data,
                     email=form.email.data,
                     role=form.role.data,
+                    github=form.github.data,
+                    linkedin=form.linkedin.data,
                     country=form.country.data,
                     password=generate_password_hash(form.password.data))
         profile = Profile(user_id=user.id)

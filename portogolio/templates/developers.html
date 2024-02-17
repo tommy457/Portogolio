@@ -8,10 +8,7 @@
         <h3>{{ user.username }}</h3>
         <h6>{{ user.country }}</h6>
         <p>{{ user.role }}</p>
-        <div class="buttons">
-            <button class="primary">
-                <a href="#" >Message</a>
-            </button>
+        <div>
             <button class="primary">
                 <a href="{{ url_for('profile', user_id=user.id ) }}" >Profile</a>
             </button>

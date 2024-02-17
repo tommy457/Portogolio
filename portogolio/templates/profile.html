@@ -7,10 +7,10 @@
         <h3>{{ user.username }}</h3>
         <h6>{{ user.country }}</h6>
         <p>{{ user.role }}</p>
-        <div class="buttons">
+        <div>
 
             <button class="primary">
-                <a href="#" >Message</a>
+                <a href="#info" >Contact</a>
             </button>
             {% if is_authorized %}
             <button class="primary">
@@ -39,11 +39,24 @@
                 {% endif %}
             </label>
             <label>
-
                 {{ form.country(class="input") }}
                 <span>country</span>
                 {% if form.country.errors %}
                 <p class="error">{{ form.country.errors[0] }}</p>
+                {% endif %}
+            </label>
+            <label>
+                {{ form.github(class="input") }}
+                <span>Github</span>
+                {% if form.github.errors %}
+                <p class="error">{{ form.github.errors[0] }}</p>
+                {% endif %}
+            </label>
+            <label>
+                {{ form.linkedin(class="input") }}
+                <span>Linkedin</span>
+                {% if form.linkedin.errors %}
+                <p class="error">{{ form.linkedin.errors[0] }}</p>
                 {% endif %}
             </label>
             <label>
@@ -135,4 +148,21 @@
     </div>
     {% endfor %}
 </div>
+<footer id='info'>
+    <div class="footer-section contact-section">
+        <h3>Contact Developer:</h3>
+        <p>Email: {{ user.email }}</p>
+        <p>Based in : {{ user.country }}</p>
+    </div>
+
+    <div class="footer-section social-section">
+        <h3>Socials</h3>
+        <a href="{{ user.github }}" >Github</a>
+        <a href="{{ user.linkedin }}" >LinkedIn</a>
+    </div>
+
+
+
+</footer>
+
 {% endblock content %}
