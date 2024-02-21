@@ -66,6 +66,20 @@
                 <p class="error">{{ form.role.errors[0] }}</p>
                 {% endif %}
             </label>
+            <div class="amenities">
+                <div class="dropdown">
+                    <button class="dropdown-toggle " id="techSkillsDropdown">Select Tech Skills</button>
+                    <div class="dropdown-menu" id="techSkillsDropdownMenu">
+                        {% for value, label in form.tech_skills.choices %}
+                            <div class="dropdown-item" data-value="{{ value }}">
+                                <input type="checkbox" class="skillCheckbox" name="tech_skills" value="{{ value }}"> {{ label }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+
             <label>
                 <span>Profile pic</span>
 
@@ -74,27 +88,22 @@
                 <p class="error">{{ form.profile_pic.errors[0] }}</p>
                 {% endif %}
             </label>
+
+
+            {% if form.tech_skills.errors %}
+            <p class="error">{{ form.tech_skills.errors[0] }}</p>
+            {% endif %}
+
             {{ form.submit(class="submit") }}
         </form>
     </div>
 {% endif %}
 <div class="skills">
     <h6>Skills</h6>
-    <ul>
-        <li>UI / UX</li>
-        <li>Front End Development</li>
-        <li>HTML</li>
-        <li>CSS</li>
-        <li>JavaScript</li>
-        <li>React</li>
-        <li>Node</li>
-        <li>UI / UX</li>
-        <li>Front End Development</li>
-        <li>HTML</li>
-        <li>CSS</li>
-        <li>JavaScript</li>
-        <li>React</li>
-        <li>Node</li>
+    <ul id="skillsList">
+        {% for tag in user.tags %}
+        <li>{{ tag.name }}</li>
+        {% endfor %}
     </ul>
 </div>
 <h1 class="developers">{{ user.username }}'s Projects</h1>

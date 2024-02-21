@@ -14,6 +14,8 @@ from models.comment import Comment
 from models.profile import Profile
 from models.projects import Project
 from models.user import User
+from models.tags import Tag
+
 from models.utils import save_picture, format_skills
 from portogolio import app, login_manager
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -62,6 +64,8 @@ def profile(user_id):
     projects = user.projects
     if current_user.is_authenticated and current_user.id == profile.user_id:
         form = ProfileUpdateForm()
+        form.populate_tech_skills()
+
         if form.validate_on_submit():
             if form.profile_pic.data:
                 picture_file = save_picture(form.profile_pic.data,
@@ -70,6 +74,9 @@ def profile(user_id):
             else:
                 picture_file = current_user.profile_pic
 
+            tags = storage.get_tags(form.tech_skills.data)
+            current_user.tags.clear()
+
             current_user.username = form.username.data
             current_user.email = form.email.data
             current_user.country = form.country.data
@@ -77,8 +84,9 @@ def profile(user_id):
             current_user.github = form.github.data
             current_user.linkedin = form.linkedin.data
             current_user.profile_pic = picture_file
-
+            current_user.tags.extend(tags)
             storage.save()
+
             return redirect(url_for("profile", user_id=current_user.id))
         elif request.method == "GET":
             form.username.data = current_user.username
@@ -87,6 +95,8 @@ def profile(user_id):
             form.role.data = current_user.role
             form.github.data = current_user.github
             form.linkedin.data = current_user.linkedin
+            form.tech_skills.data = current_user.tags
+
 
             picture_file = current_user.profile_pic
         return render_template('profile.html', user=current_user,
@@ -109,6 +119,7 @@ def register():
     if current_user.is_authenticated:
         return redirect(url_for('developers'))
     form = RegistrationForm()
+
     if form.validate_on_submit():
         user = User(username=form.username.data,
                     email=form.email.data,

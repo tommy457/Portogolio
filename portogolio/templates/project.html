@@ -36,11 +36,17 @@
     <label>
         {{ form.github_link(class="input") }}
         <span>Github</span>
+        {% if form.github_link.errors %}
+        <p class="error">{{ form.github_link.errors[0] }}</p>
+        {% endif %}
     </label>
 
     <label>
         {{ form.demo_link(class="input") }}
         <span>Demo Link (Optional)</span>
+        {% if form.demo_link.errors %}
+        <p class="error">{{ form.demo_link.errors[0] }}</p>
+        {% endif %}
     </label>
     <label>
         {{ form.submit(class="input submit") }}

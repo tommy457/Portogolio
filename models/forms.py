@@ -9,15 +9,24 @@ from wtforms import (StringField,
                      SubmitField,
                      BooleanField,
                      TextAreaField,
-                     URLField)
+                     URLField,
+                     SelectMultipleField,
+                     widgets)
 from wtforms.validators import (DataRequired,
                                 Length,
                                 Email,
                                 EqualTo,
                                 ValidationError,
-                                URL)
+                                URL,
+                                Optional)
 from models.user import User
+from models.tags import Tag
 
+
+
+class CustomSelectMultipleField(SelectMultipleField):
+    widget = widgets.ListWidget(prefix_label=False)
+    option_widget = widgets.CheckboxInput()
 
 class RegistrationForm(FlaskForm):
     username = StringField('Username',
@@ -32,6 +41,7 @@ class RegistrationForm(FlaskForm):
                            validators=[DataRequired(), URL()])
     linkedin = URLField('Linkedin',
                            validators=[DataRequired(), URL()])
+
     password = PasswordField('Password', validators=[DataRequired()])
     confirm_password = PasswordField('Confirm Password',
                                      validators=[DataRequired(),
@@ -74,6 +84,10 @@ class ProfileUpdateForm(FlaskForm):
                            validators=[DataRequired(), URL()])
     linkedin = URLField('Linkedin',
                            validators=[DataRequired(), URL()])
+    tech_skills = CustomSelectMultipleField('Tech Stack',
+                                    coerce=str,
+                                    choices=[])
+    additional_skills = StringField('Additional Skills')
     submit = SubmitField('Update')
 
     def validate_username(self, username):
@@ -89,6 +103,11 @@ class ProfileUpdateForm(FlaskForm):
             if user:
                 raise ValidationError('Email already exists.')
 
+    def populate_tech_skills(self):
+        print("errt")
+        self.tech_skills.choices = [(str(skill.name), skill.name) for skill in storage.all(Tag).values()]
+
+
 
 class ProjectCreateForm(FlaskForm):
     name = StringField('Name',
@@ -96,7 +115,7 @@ class ProjectCreateForm(FlaskForm):
     github_link = URLField('Github',
                            validators=[DataRequired(), URL()])
     demo_link = URLField('Demo',
-                           validators=[URL()])
+                           validators=[Optional(), URL()])
     description = TextAreaField('Description',
                         validators=[DataRequired(), Length(min=2, max=2000)])
     background_image = FileField('Background image',
