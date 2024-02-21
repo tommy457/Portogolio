@@ -121,7 +121,7 @@ def register():
     form = RegistrationForm()
 
     if form.validate_on_submit():
-        user = User(username=form.username.data,
+        user = User(username=form.username.data.title(),
                     email=form.email.data,
                     role=form.role.data,
                     github=form.github.data,
@@ -155,14 +155,17 @@ def create_project(user_id):
     profile = storage.get_by_fk(Profile, user_id)
     if current_user.is_authenticated and current_user.id == profile.user_id:
         form = ProjectCreateForm()
+        form.populate_tech_skills()
+
         if form.validate_on_submit():
 
             project = Project(name=form.name.data,
                               description=form.description.data,
                               user_id=current_user.id,
-                              tags=format_skills(form.tags.data),
                               github_link=form.github_link.data
                               )
+            tags = storage.get_tags(form.tech_skills.data)
+            project.tags.extend(tags)
 
             if form.background_image.data:
                 picture_file = save_picture(form.background_image.data,
@@ -190,7 +193,6 @@ def create_project(user_id):
            methods=["GET", "POST"])
 def show_project(user_id, project_id):
     """renders a singel project page"""
-    profile = storage.get_by_fk(Profile, user_id)
     project = storage.get(Project, project_id)
     comments = storage.get_all_comments(project_id=project_id)
 
@@ -228,6 +230,8 @@ def edit_project(user_id, project_id):
 
     if current_user.is_authenticated and current_user.id == profile.user_id:
         form = ProjectCreateForm()
+        form.populate_tech_skills()
+
         if form.validate_on_submit():
             if form.background_image.data:
                 picture_file = save_picture(form.background_image.data,
@@ -235,10 +239,12 @@ def edit_project(user_id, project_id):
                                             prev=project.background_image)
             else:
                 picture_file = project.background_image
-            print(form.tags.data)
+            tags = storage.get_tags(form.tech_skills.data)
+            project.tags.clear()
+
             project.name = form.name.data
             project.description = form.description.data
-            project.tags = format_skills(form.tags.data)
+            project.tags.extend(tags)
             project.github_link = form.github_link.data
             project.demo_link = form.demo_link.data
             project.background_image = picture_file
@@ -252,7 +258,7 @@ def edit_project(user_id, project_id):
             form.description.data = project.description
             form.github_link.data = project.github_link
             form.demo_link.data = project.demo_link
-            form.tags.data = ','.join(project.tags)
+            form.tech_skills.data = project.tags
             picture_file = project.background_image
 
             print(project.tags)

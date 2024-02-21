@@ -6,6 +6,8 @@
     <div class="project-display">
         <img class="flat" src="{{ url_for('static', filename='project_images/' + project.background_image) }}" alt="user" />
         <h3>{{  project.user.username}}</h3>
+        <h3>{{  project.user.role}}</h3>
+
 
         <div class="">
             <button class="primary">
@@ -16,6 +18,8 @@
             </button>
         </div>
         <div class="skills">
+            <h2>Project Info</h2>
+
             <h3>{{ project.name }}</h3>
             <a href="{{ project.github_link }}">Github -- </a>
             <a href="{{ project.demo_link }}">Demo</a>
@@ -27,7 +31,7 @@
             <h4>Tech Stack</h4>
             <ul>
                 {% for tag in project.tags %}
-                <li>{{ tag }}</li>
+                <li>{{ tag.name }}</li>
                 {% endfor %}
             </ul>
         </div>

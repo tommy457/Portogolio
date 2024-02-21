@@ -87,7 +87,6 @@ class ProfileUpdateForm(FlaskForm):
     tech_skills = CustomSelectMultipleField('Tech Stack',
                                     coerce=str,
                                     choices=[])
-    additional_skills = StringField('Additional Skills')
     submit = SubmitField('Update')
 
     def validate_username(self, username):
@@ -104,7 +103,6 @@ class ProfileUpdateForm(FlaskForm):
                 raise ValidationError('Email already exists.')
 
     def populate_tech_skills(self):
-        print("errt")
         self.tech_skills.choices = [(str(skill.name), skill.name) for skill in storage.all(Tag).values()]
 
 
@@ -120,8 +118,14 @@ class ProjectCreateForm(FlaskForm):
                         validators=[DataRequired(), Length(min=2, max=2000)])
     background_image = FileField('Background image',
                                  validators=[FileAllowed(['jpg', 'png'])])
-    tags = StringField("Tags ('comma-separated')", validators=[DataRequired()])
+    tech_skills = CustomSelectMultipleField('Tech Stack',
+                                    coerce=str,
+                                    choices=[])
     submit = SubmitField('Save')
+
+
+    def populate_tech_skills(self):
+        self.tech_skills.choices = [(str(skill.name), skill.name) for skill in storage.all(Tag).values()]
 
 
 class CommentForm(FlaskForm):

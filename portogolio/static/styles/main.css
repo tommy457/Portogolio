@@ -394,9 +394,9 @@ button:hover{
 }
 
 .skills {
-	background-color: #000000;
 	text-align: left;
 	padding: 15px;
+  max-width: fit-content;
 }
 
 .skills ul {
@@ -406,10 +406,12 @@ button:hover{
 }
 
 .skills ul li {
-	border: 1px solid #2D2747;
+	border: 1px solid rgb(255, 255, 255);
+  background-color: #6b9dd0;
+  color: #000000;
 	border-radius: 2px;
 	display: inline-block;
-	font-size: 12px;
+	font-size: 16px;
 	margin: 0 7px 7px 0;
 	padding: 7px;
 }

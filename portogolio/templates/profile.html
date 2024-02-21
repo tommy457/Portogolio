@@ -99,7 +99,7 @@
     </div>
 {% endif %}
 <div class="skills">
-    <h6>Skills</h6>
+    <h3>Skills</h3>
     <ul id="skillsList">
         {% for tag in user.tags %}
         <li>{{ tag.name }}</li>
@@ -122,7 +122,7 @@
             <h4>Tech Stack</h4>
             <ul>
                 {% for tag in project.tags %}
-                <li>{{ tag }}</li>
+                <li>{{ tag.name }}</li>
                 {% endfor %}
             </ul>
         </div>

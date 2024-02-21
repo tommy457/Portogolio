@@ -27,12 +27,6 @@
         <p class="error">{{ form.description.errors[0] }}</p>
         {% endif %}
     </label>
-
-    <label>
-        {{ form.tags(class="input") }}
-        <span>Skills (comma-separatted eg: Python, Javascrip, ...)</span>
-    </label>
-
     <label>
         {{ form.github_link(class="input") }}
         <span>Github</span>
@@ -48,6 +42,29 @@
         <p class="error">{{ form.demo_link.errors[0] }}</p>
         {% endif %}
     </label>
+    <div class="skills">
+        <h6>Skills</h6>
+        <ul id="skillsList">
+        {% if project%}
+        {% for tag in project.tags %}
+        <li>{{ tag.name }}</li>
+        {% endfor %}
+        {% endif %}
+        </ul>
+        <div class="amenities">
+            <div class="dropdown">
+                <button class="dropdown-toggle " id="techSkillsDropdown">Select Tech Skills</button>
+                <div class="dropdown-menu" id="techSkillsDropdownMenu">
+                    {% for value, label in form.tech_skills.choices %}
+                        <div class="dropdown-item" data-value="{{ value }}">
+                            <input type="checkbox" class="skillCheckbox" name="tech_skills" value="{{ value }}"> {{ label }}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
     <label>
         {{ form.submit(class="input submit") }}
     </label>
@@ -67,7 +84,7 @@
             <h4>Tech Stack</h4>
             <ul>
                 {% for tag in project.tags %}
-                <li>{{ tag }}</li>
+                <li>{{ tag.name }}</li>
                 {% endfor %}
             </ul>
         </div>
