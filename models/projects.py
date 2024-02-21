@@ -30,7 +30,7 @@ class Project(BaseModel, Base):
         default="default.png")
     github_link = Column(String(128), nullable=False)
     demo_link = Column(String(128))
-    tags = Column(JSON)
+    tags = relationship("Tag", secondary=project_tag, viewonly=False)
     comments = relationship("Comment",
                             backref="project",
                             cascade="all, delete")

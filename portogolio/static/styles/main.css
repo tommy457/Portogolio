@@ -195,6 +195,7 @@ a {
   position: relative;
 }
 
+
 .form label .input {
   width: 93%;
   padding: 10px 10px 20px 10px;
@@ -202,6 +203,7 @@ a {
   border: 1px solid rgba(105, 105, 105, 0.397);
   border-radius: 10px;
 }
+
 
 .form label .input+span {
   position: absolute;
@@ -392,9 +394,9 @@ button:hover{
 }
 
 .skills {
-	background-color: #000000;
 	text-align: left;
 	padding: 15px;
+  max-width: fit-content;
 }
 
 .skills ul {
@@ -404,10 +406,12 @@ button:hover{
 }
 
 .skills ul li {
-	border: 1px solid #2D2747;
+	border: 1px solid rgb(255, 255, 255);
+  background-color: #6b9dd0;
+  color: #000000;
 	border-radius: 2px;
 	display: inline-block;
-	font-size: 12px;
+	font-size: 16px;
 	margin: 0 7px 7px 0;
 	padding: 7px;
 }
@@ -695,5 +699,55 @@ button.primary-edit {
 }
 
 #confirmDeleteModal:target {
+  display: block;
+}
+
+.amenities {
+  margin-top: 20px;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-toggle {
+  padding: 16px 120px;
+  font-size: 14px;
+  cursor: pointer;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #ffffff;
+  color: #000000;
+}
+
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 1000;
+  min-width: 160px;
+  box-shadow: 0 2px 4px rgba(254, 0, 0, 0.1);
+  background-color: #fff;
+  text-align: left;
+  width: 350px;
+  max-height: 200px;
+  overflow-y: auto;
+
+}
+
+.dropdown-item {
+  padding: 8px 16px;
+  font-size: 14px;
+  cursor: pointer;
+  color: #000000;
+}
+
+.dropdown-item:hover {
+  background-color: #007cf7;
+}
+
+.show .dropdown-menu {
   display: block;
 }

@@ -8,9 +8,10 @@ from models.user import User
 from models.profile import Profile
 from models.projects import Project
 from models.comment import Comment
+from models.tags import Tag
 import models
 
-classes = {"User": User, "Profile": Profile, "Project": Project}
+classes = {"User": User, "Profile": Profile, "Project": Project, "Tag":Tag}
 
 
 class DBStorage:
@@ -34,7 +35,7 @@ class DBStorage:
             for obj in results:
                 results_dict["{}.{}".format(cls.__name__, obj.id)] = obj
         else:
-            cls = [User, Profile, Project]
+            cls = [User, Profile, Project, Comment, Tag]
             for c in cls:
                 results = self.__session.query(c).all()
 
@@ -129,3 +130,10 @@ class DBStorage:
             filter_by(project_id=project_id).\
                 order_by(Comment.created_at.desc()).all()
         return comments
+
+    def get_tags(self, tag_names):
+        """
+        Returns collection of Tag instances None if not found
+        """
+        tags = self.__session.query(Tag).filter(Tag.name.in_(tag_names)).all()
+        return tags
