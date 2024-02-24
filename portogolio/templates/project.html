@@ -1,152 +1,141 @@
 {% extends "index.html" %}
-
 {% block content %}
 <p class="title">{{ title }} </p>
 {% if is_authorized %}
-
 <form class="form-project form-update" method="POST" action="" enctype="multipart/form-data">
-    {{ form.hidden_tag() }}
-    <div class="project-image">
-        <label for="backgroundImageInput" class="file-input-label">Upload System Design Image</label>
-        {{ form.background_image(id='backgroundImageInput', class='file-input', type='file', accept='image/*', onchange="readURL(this)") }}
-        {% if not project %}
-        <img class="output-image" src="{{ url_for('static', filename='project_images/default.png') }}" width="900" alt="nONE"/>
-        {% else %}
-        <img class="output-image" src="{{ url_for('static', filename='project_images/' + project.background_image) }}" width="900" alt="nONE"/>
-        {% endif %}
-    </div>
-    <div class="project-image">
-        <label for="backgroundImageInput" class="file-input-label">Upload Database Image</label>
-        {{ form.db_image(id='backgroundImageInput', class='file-input', accept='image/*', onchange="readURL(this)") }}
-        {% if not project %}
-        <img class="output-image" src="{{ url_for('static', filename='project_images/default.png') }}" width="900" alt="nONE"/>
-        {% else %}
-        <img class="output-image" src="{{ url_for('static', filename='project_images/' + project.db_image) }}" width="900" alt="nONE"/>
-        {% endif %}
-    </div>
-    <div class="project-image">
-        <label for="backgroundImageInput" class="file-input-label">Upload Infra Image</label>
-        {{ form.infra_image(id='backgroundImageInput', class='file-input', accept='image/*', onchange="readURL(this)") }}
-        {% if not project %}
-        <img class="output-image" src="{{ url_for('static', filename='project_images/default.png') }}" width="900" alt="nONE"/>
-        {% else %}
-        <img class="output-image" src="{{ url_for('static', filename='project_images/' + project.infra_image) }}" width="900" alt="nONE"/>
-        {% endif %}
-
-    </div>
-
-    <label>
-        {{ form.name(class="input") }}
-        <span>Title</span>
-    </label>
-
-    <label>
-        {{ form.description(class="textarea input") }}
-        <span>Project Description</span>
-        {% if form.description.errors %}
-        <p class="error">{{ form.description.errors[0] }}</p>
-        {% endif %}
-    </label>
-    <label>
-        {{ form.github_link(class="input") }}
-        <span>Github</span>
-        {% if form.github_link.errors %}
-        <p class="error">{{ form.github_link.errors[0] }}</p>
-        {% endif %}
-    </label>
-
-    <label>
-        {{ form.demo_link(class="input") }}
-        <span>Demo Link (Optional)</span>
-        {% if form.demo_link.errors %}
-        <p class="error">{{ form.demo_link.errors[0] }}</p>
-        {% endif %}
-    </label>
-    <div class="skills">
-        <h6>Skills</h6>
-        <ul id="skillsList">
-        {% if project%}
-        {% for tag in project.tags %}
-        <li>{{ tag.name }}</li>
-        {% endfor %}
-        {% endif %}
-        </ul>
-        <div class="amenities">
-            <div class="dropdown">
-                <button class="dropdown-toggle " id="techSkillsDropdown">Select Tech Skills</button>
-                <div class="dropdown-menu" id="techSkillsDropdownMenu">
-                    {% for value, label in form.tech_skills.choices %}
-                        <div class="dropdown-item" data-value="{{ value }}">
-                            <input type="checkbox" class="skillCheckbox" name="tech_skills" value="{{ value }}"> {{ label }}
-                        </div>
-                    {% endfor %}
-                </div>
+   {{ form.hidden_tag() }}
+   <div class="project-image">
+      <label for="backgroundImageInput" class="file-input-label">Upload System Design Image</label>
+      {{ form.background_image(id='backgroundImageInput', class='file-input', type='file', accept='image/*', onchange="readURL(this)") }}
+      {% if not project %}
+      <img class="output-image" src="{{ url_for('static', filename='project_images/default.png') }}" width="900" alt="nONE"/>
+      {% else %}
+      <img class="output-image" src="{{ url_for('static', filename='project_images/' + project.background_image) }}" width="900" alt="nONE"/>
+      {% endif %}
+   </div>
+   <div class="project-image">
+      <label for="backgroundImageInput" class="file-input-label">Upload Database Image</label>
+      {{ form.db_image(id='backgroundImageInput', class='file-input', accept='image/*', onchange="readURL(this)") }}
+      {% if not project %}
+      <img class="output-image" src="{{ url_for('static', filename='project_images/default.png') }}" width="900" alt="nONE"/>
+      {% else %}
+      <img class="output-image" src="{{ url_for('static', filename='project_images/' + project.db_image) }}" width="900" alt="nONE"/>
+      {% endif %}
+   </div>
+   <div class="project-image">
+      <label for="backgroundImageInput" class="file-input-label">Upload Infra Image</label>
+      {{ form.infra_image(id='backgroundImageInput', class='file-input', accept='image/*', onchange="readURL(this)") }}
+      {% if not project %}
+      <img class="output-image" src="{{ url_for('static', filename='project_images/default.png') }}" width="900" alt="nONE"/>
+      {% else %}
+      <img class="output-image" src="{{ url_for('static', filename='project_images/' + project.infra_image) }}" width="900" alt="nONE"/>
+      {% endif %}
+   </div>
+   <label>
+   {{ form.name(class="input") }}
+   <span>Title</span>
+   </label>
+   <label>
+      {{ form.description(class="textarea input") }}
+      <span>Project Description</span>
+      {% if form.description.errors %}
+      <p class="error">{{ form.description.errors[0] }}</p>
+      {% endif %}
+   </label>
+   <label>
+      {{ form.github_link(class="input") }}
+      <span>Github</span>
+      {% if form.github_link.errors %}
+      <p class="error">{{ form.github_link.errors[0] }}</p>
+      {% endif %}
+   </label>
+   <label>
+      {{ form.demo_link(class="input") }}
+      <span>Demo Link (Optional)</span>
+      {% if form.demo_link.errors %}
+      <p class="error">{{ form.demo_link.errors[0] }}</p>
+      {% endif %}
+   </label>
+   <div class="skills">
+      <h6>Skills</h6>
+      <ul id="skillsList">
+         {% if project%}
+         {% for tag in project.tags %}
+         <li>{{ tag.name }}</li>
+         {% endfor %}
+         {% endif %}
+      </ul>
+      <div class="amenities">
+         <div class="dropdown">
+            <button class="dropdown-toggle " id="techSkillsDropdown">Select Tech Skills</button>
+            <div class="dropdown-menu" id="techSkillsDropdownMenu">
+               {% for value, label in form.tech_skills.choices %}
+               <div class="dropdown-item" data-value="{{ value }}">
+                  <input type="checkbox" class="skillCheckbox" name="tech_skills" value="{{ value }}"> {{ label }}
+               </div>
+               {% endfor %}
             </div>
-        </div>
-    </div>
-
-    <label>
-        {{ form.submit(class="input submit") }}
-    </label>
-
+         </div>
+      </div>
+   </div>
+   <label>
+   {{ form.submit(class="input submit") }}
+   </label>
 </form>
 {% else %}
 <div class="developers">
-    <div class="project-display">
-        <div class="slideshow-container">
-            {% for image in [project.infra_image, project.background_image, project.db_image] %}
-              <div class="mySlides">
-                <img class="flat" src="{{ url_for('static', filename='project_images/' + image) }}" alt="user" />
-              </div>
+   <div class="project-display">
+      <div class="slideshow-container">
+         {% for image in [project.infra_image, project.background_image, project.db_image] %}
+         <div class="mySlides">
+            <img class="flat" src="{{ url_for('static', filename='project_images/' + image) }}" alt="user" />
+         </div>
+         {% endfor %}
+         <a class="prev" onclick="plusSlides{{ 0 }}(-1)">❮</a>
+         <a class="next" onclick="plusSlides{{ 0 }}(1)">❯</a>
+      </div>
+      <div class="skills">
+         <h3>{{ project.name }}</h3>
+         <a href="{{ project.github_link }}">Github -- </a>
+         <a href="{{ project.demo_link }}">Demo</a>
+         <div class="para">
+            {{ project.description }}
+         </div>
+         <h4>Tech Stack</h4>
+         <ul>
+            {% for tag in project.tags %}
+            <li>{{ tag.name }}</li>
             {% endfor %}
-
-            <a class="prev" onclick="plusSlides{{ 0 }}(-1)">❮</a>
-            <a class="next" onclick="plusSlides{{ 0 }}(1)">❯</a>
-        </div>        <div class="skills">
-            <h3>{{ project.name }}</h3>
-            <a href="{{ project.github_link }}">Github -- </a>
-            <a href="{{ project.demo_link }}">Demo</a>
-            <div class="para">
-                {{ project.description }}
-            </div>
-            <h4>Tech Stack</h4>
-            <ul>
-                {% for tag in project.tags %}
-                <li>{{ tag.name }}</li>
-                {% endfor %}
-            </ul>
-        </div>
-    </div>
+         </ul>
+      </div>
+   </div>
 </div>
 <div class="comments-section">
-    <h2>Comments</h2>
-        {% for comment in comments %}
-        <div class="comment">
-            <div class="comment-author">
-                <a href="{{ url_for('profile', user_id=comment.user.id) }}" >@{{ comment.user.username }}</a>
-            </div>
-            <div class="comment-date">{{ comment.created_at }}</div>
-            <div class="comment-text">
-                {{ comment.body }}
-            </div>
-        </div>
-
-        {% endfor %}
-        {% if current_user.is_authenticated %}
-        <form class="form-project form-update" method="POST" action="">
-            {{ form.hidden_tag() }}
-            <label>
-                {{ form.body(class="input") }}
-                <span>comment</span>
-            </label>
-            <label>
-                {{ form.submit(class="input submit") }}
-            </label>
-        </form>
-        {% endif %}
-    </div>
-
+   <h2>Comments</h2>
+   {% for comment in comments %}
+   <div class="comment">
+      <div class="comment-author">
+         <a href="{{ url_for('profile', user_id=comment.user.id) }}" >@{{ comment.user.username }}</a>
+      </div>
+      <div class="comment-date">{{ comment.created_at }}</div>
+      <div class="comment-text">
+         {{ comment.body }}
+      </div>
+   </div>
+   {% endfor %}
+   {% if current_user.is_authenticated %}
+   <form class="form-project form-update" method="POST" action="">
+      {{ form.hidden_tag() }}
+      <label>
+      {{ form.body(class="input") }}
+      <span>comment</span>
+      </label>
+      <label>
+      {{ form.submit(class="input submit") }}
+      </label>
+   </form>
+   {% endif %}
+</div>
 </div>
 {% endif %}
-
 {% endblock content %}

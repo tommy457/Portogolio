@@ -1,15 +1,18 @@
 #!/usr/bin/python3
-"""starts an app flask"""
+"""route for portogolio flask app"""
 
 from flask import render_template, flash, redirect, url_for, abort
 from flask import request
 from flask_login import login_user, current_user, logout_user, login_required
 from models import storage
-from models.forms import (RegistrationForm,
-                          LoginForm,
-                          ProfileUpdateForm,
-                          ProjectCreateForm,
-                          CommentForm)
+from models.forms import (
+    RegistrationForm,
+    LoginForm,
+    ProfileUpdateForm,
+    ProjectCreateForm,
+    CommentForm,
+    SeachForm,
+)
 from models.comment import Comment
 from models.profile import Profile
 from models.projects import Project
@@ -37,23 +40,23 @@ def home():
 def login():
     """renders login page"""
     if current_user.is_authenticated:
-        return redirect(url_for('home'))
+        return redirect(url_for("home"))
     form = LoginForm()
     if form.validate_on_submit():
         user = storage.qurery_by_email(User, email=form.email.data)
         if user and check_password_hash(user.password, form.password.data):
             login_user(user, remember=form.remember.data)
-            return redirect(url_for('profile', user_id=user.id))
+            return redirect(url_for("profile", user_id=user.id))
         else:
-            flash('Login Unsuccessful. Please check email and password',
-                  'danger')
-    return render_template('login.html', title='Login', form=form)
+            flash("Login Unsuccessful. Please check email and password",
+                  "danger")
+    return render_template("login.html", title="Login", form=form)
 
 
 @app.route("/logout", strict_slashes=False, methods=["GET", "POST"])
 def logout():
     logout_user()
-    return redirect(url_for('developers'))
+    return redirect(url_for("developers"))
 
 
 @app.route("/profile/<user_id>", strict_slashes=False, methods=["GET", "POST"])
@@ -68,9 +71,11 @@ def profile(user_id):
 
         if form.validate_on_submit():
             if form.profile_pic.data:
-                picture_file = save_picture(form.profile_pic.data,
-                                            "images",
-                                            prev=current_user.profile_pic)
+                picture_file = save_picture(
+                    form.profile_pic.data,
+                    "images",
+                    prev=current_user.profile_pic
+                )
             else:
                 picture_file = current_user.profile_pic
 
@@ -97,58 +102,77 @@ def profile(user_id):
             form.linkedin.data = current_user.linkedin
             form.tech_skills.data = current_user.tags
 
-
             picture_file = current_user.profile_pic
-        return render_template('profile.html', user=current_user,
-                               form=form,
-                               is_authorized=True,
-                               cll_1="profile-info",
-                               cll_2="profile-container",
-                               projects=projects)
+        return render_template(
+            "profile.html",
+            user=current_user,
+            form=form,
+            is_authorized=True,
+            cll_1="profile-info",
+            cll_2="profile-container",
+            projects=projects,
+        )
 
-    return render_template('profile.html', user=user,
-                           is_authorized=False,
-                           cll_1="profile-info-non",
-                           cll_2="profile-container-non",
-                           projects=projects)
+    return render_template(
+        "profile.html",
+        user=user,
+        is_authorized=False,
+        cll_1="profile-info-non",
+        cll_2="profile-container-non",
+        projects=projects,
+    )
 
 
 @app.route("/register", strict_slashes=False, methods=["GET", "POST"])
 def register():
     """renders register page"""
     if current_user.is_authenticated:
-        return redirect(url_for('developers'))
+        return redirect(url_for("developers"))
     form = RegistrationForm()
 
     if form.validate_on_submit():
-        user = User(username=form.username.data.title(),
-                    email=form.email.data,
-                    role=form.role.data,
-                    github=form.github.data,
-                    linkedin=form.linkedin.data,
-                    country=form.country.data,
-                    password=generate_password_hash(form.password.data))
+        user = User(
+            username=form.username.data.title(),
+            email=form.email.data,
+            role=form.role.data,
+            github=form.github.data,
+            linkedin=form.linkedin.data,
+            country=form.country.data,
+            password=generate_password_hash(form.password.data),
+        )
         profile = Profile(user_id=user.id)
         storage.new(user)
         storage.new(profile)
         storage.save()
 
-        flash('Your account has been created! You are now able to log in',
-              'success')
-        return redirect(url_for('login'))
-    return render_template('register.html', title='Register', form=form)
+        flash("Your account has been created! You are now able to log in",
+              "success")
+        return redirect(url_for("login"))
+    return render_template("register.html", title="Register", form=form)
 
 
-@app.route("/projects", strict_slashes=False)
+@app.route("/projects", strict_slashes=False, methods=["GET", "POST"])
 def projects():
     """renders projects page"""
+    form = SeachForm()
+    form.populate_tech_skills()
     projects = storage.all(Project).values()
-    return render_template("projects.html", projects=projects)
+    tags = request.args.get("tags")
+
+    if form.validate_on_submit():
+        if form.tags.data:
+            projects = storage.filter_projects(form.tags.data)
+    elif tags:
+        projects = storage.filter_projects([tags])
+
+    return render_template("projects.html", projects=projects, form=form)
 
 
-@app.route("/profile/<user_id>/create_project",
-           strict_slashes=False,
-           methods=["GET", "POST"])
+@app.route(
+    "/profile/<user_id>/create_project",
+    strict_slashes=False,
+    methods=["GET", "POST"]
+)
 @login_required
 def create_project(user_id):
     """renders create project page"""
@@ -159,53 +183,61 @@ def create_project(user_id):
 
         if form.validate_on_submit():
 
-            project = Project(name=form.name.data,
-                              description=form.description.data,
-                              user_id=current_user.id,
-                              github_link=form.github_link.data
-                              )
+            project = Project(
+                name=form.name.data,
+                description=form.description.data,
+                user_id=current_user.id,
+                github_link=form.github_link.data,
+            )
             tags = storage.get_tags(form.tech_skills.data)
             project.tags.extend(tags)
 
             # save new image and return it's path
             # same for db_image and infra_image
             if form.background_image.data:
-                picture_file = save_picture(form.background_image.data,
-                                            "project_images",
-                                            prev=project.background_image)
+                picture_file = save_picture(
+                    form.background_image.data,
+                    "project_images",
+                    prev=project.background_image,
+                )
                 project.background_image = picture_file
 
             if form.db_image.data:
-                db_image = save_picture(form.db_image.data,
-                                            "project_images",
-                                            prev=project.db_image)
-                project.background_image = db_image
+                db_image = save_picture(
+                    form.db_image.data, "project_images", prev=project.db_image
+                )
+                project.db_image = db_image
 
             if form.infra_image.data:
-                infra_image = save_picture(form.infra_image.data,
-                                            "project_images",
-                                            prev=project.infra_image)
+                infra_image = save_picture(
+                    form.infra_image.data,
+                    "project_images",
+                    prev=project.infra_image
+                )
                 project.infra_image = infra_image
 
             storage.new(project)
 
             storage.save()
-            flash('Project created successful', 'success')
-            return redirect(url_for("show_project",
-                                    user_id=user_id,
-                                    project_id=project.id))
+            flash("Project created successful", "success")
+            return redirect(
+                url_for("show_project", user_id=user_id, project_id=project.id)
+            )
 
-        return render_template("project.html",
-                               form=form,
-                               title="Create Project",
-                               is_authorized=True)
+        return render_template(
+            "project.html",
+            form=form, title="Create Project",
+            is_authorized=True
+        )
     else:
         return abort(403)
 
 
-@app.route("/profile/<user_id>/show/<project_id>",
-           strict_slashes=False,
-           methods=["GET", "POST"])
+@app.route(
+    "/profile/<user_id>/show/<project_id>",
+    strict_slashes=False,
+    methods=["GET", "POST"],
+)
 def show_project(user_id, project_id):
     """renders a singel project page"""
     project = storage.get(Project, project_id)
@@ -214,29 +246,33 @@ def show_project(user_id, project_id):
     if current_user.is_authenticated:
         form = CommentForm()
         if form.validate_on_submit():
-            comment = Comment(body=form.body.data,
-                              user_id=current_user.id,
-                              project_id=project_id,
-                              )
+            comment = Comment(
+                body=form.body.data,
+                user_id=current_user.id,
+                project_id=project_id,
+            )
             storage.new(comment)
             storage.save()
-            return redirect(url_for("show_project",
-                                    user_id=user_id,
-                                    project_id=project_id,
-                                    ))
-        return render_template("project.html",
-                           form=form,
-                           project=project,
-                           comments=comments
-                           )
-    return render_template("project.html",
-                           project=project,
-                           comments=comments,
-                           title=project.name)
+            return redirect(
+                url_for(
+                    "show_project",
+                    user_id=user_id,
+                    project_id=project_id,
+                )
+            )
+        return render_template(
+            "project.html", form=form, project=project, comments=comments
+        )
+    return render_template(
+        "project.html", project=project, comments=comments, title=project.name
+    )
 
-@app.route("/profile/<user_id>/edit/<project_id>",
-           strict_slashes=False,
-           methods=["GET", "POST"])
+
+@app.route(
+    "/profile/<user_id>/edit/<project_id>",
+    strict_slashes=False,
+    methods=["GET", "POST"],
+)
 @login_required
 def edit_project(user_id, project_id):
     """renders form for editing project info"""
@@ -252,22 +288,26 @@ def edit_project(user_id, project_id):
             # return the path to the saved image
             # same for db_image and infra_image
             if form.background_image.data:
-                picture_file = save_picture(form.background_image.data,
-                                            "project_images",
-                                            prev=project.background_image)
+                picture_file = save_picture(
+                    form.background_image.data,
+                    "project_images",
+                    prev=project.background_image,
+                )
             else:
                 picture_file = project.background_image
 
             if form.db_image.data:
-                db_image = save_picture(form.db_image.data,
-                                            "project_images",
-                                            prev=project.db_image)
+                db_image = save_picture(
+                    form.db_image.data, "project_images", prev=project.db_image
+                )
             else:
                 db_image = project.db_image
             if form.infra_image.data:
-                infra_image = save_picture(form.infra_image.data,
-                                            "project_images",
-                                            prev=project.infra_image)
+                infra_image = save_picture(
+                    form.infra_image.data,
+                    "project_images",
+                    prev=project.infra_image
+                )
             else:
                 infra_image = project.infra_image
             tags = storage.get_tags(form.tech_skills.data)
@@ -283,11 +323,14 @@ def edit_project(user_id, project_id):
             project.infra_image = infra_image
 
             storage.save()
-            return redirect(url_for("show_project",
-                                    user_id=user_id,
-                                    project_id=project_id,
-                                    ))
-        #show current project info if it's not a POST request
+            return redirect(
+                url_for(
+                    "show_project",
+                    user_id=user_id,
+                    project_id=project_id,
+                )
+            )
+        # show current project info if it's not a POST request
         elif request.method == "GET":
             form.name.data = project.name
             form.description.data = project.description
@@ -298,30 +341,34 @@ def edit_project(user_id, project_id):
             db_image = project.db_image
             infra_image = project.infra_image
 
-
             print(project.tags)
 
-        return render_template("project.html", form=form,
-                               project=project,
-                               title="Edit project",
-                               is_authorized=True)
+        return render_template(
+            "project.html",
+            form=form,
+            project=project,
+            title="Edit project",
+            is_authorized=True,
+        )
     else:
         return abort(403)
 
 
-@app.route("/profile/<user_id>/delete/<project_id>",
-           strict_slashes=False,
-           methods=["GET", "POST"])
+@app.route(
+    "/profile/<user_id>/delete/<project_id>",
+    strict_slashes=False,
+    methods=["GET", "POST"],
+)
 @login_required
 def delete_project(user_id, project_id):
     """renders a page to delet a project"""
     profile = storage.get_by_fk(Profile, user_id)
     project = storage.get(Project, project_id)
     if current_user.is_authenticated and current_user.id == profile.user_id:
-        #clean up project images before project is deleted
-        save_picture(None ,"project_images", project.background_image)
-        save_picture(None ,"project_images", project.db_image)
-        save_picture(None ,"project_images", project.infra_image)
+        # clean up project images before project is deleted
+        save_picture(None, "project_images", project.background_image)
+        save_picture(None, "project_images", project.db_image)
+        save_picture(None, "project_images", project.infra_image)
 
         storage.delete(project)
         storage.save()

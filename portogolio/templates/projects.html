@@ -1,53 +1,61 @@
 {% extends "index.html" %}
-
 {% block content %}
+<form method="POST">
+   {{ form.hidden_tag() }}
+   <div class="search-container">
+      <div class="dropdown">
+         <button class="search-input" id="techSkillsDropdown">Search for projects                </button>
+         <div class="dropdown-menu " id="techSkillsDropdownMenu">
+            {% for value, label in form.tags.choices %}
+            <div class="dropdown-item" data="{{ value }}">
+               <input type="checkbox" name="tags" value="{{ value }}"> {{ label }}
+            </div>
+            {% endfor %}
+         </div>
+         {{ form.submit(class="search-button") }}
+      </div>
+   </div>
+</form>
 {% for project in projects %}
-  <div class="projects">
-    <div class="project-display">
-        <div class="slideshow-container">
-        {% for image in [project.infra_image, project.background_image, project.db_image] %}
-          <div class="mySlides">
+<div class="projects">
+   <div class="project-display">
+      <div class="slideshow-container">
+         {% for image in [project.infra_image, project.background_image, project.db_image] %}
+         <div class="mySlides">
             <img class="flat" src="{{ url_for('static', filename='project_images/' + image) }}" alt="user" />
-          </div>
-        {% endfor %}
-
-        <a class="prev" onclick="plusSlides{{ loop.index }}(-1)">❮</a>
-        <a class="next" onclick="plusSlides{{ loop.index }}(1)">❯</a>
-        </div>
-
+         </div>
+         {% endfor %}
+         <a class="prev" onclick="plusSlides{{ loop.index }}(-1)">❮</a>
+         <a class="next" onclick="plusSlides{{ loop.index }}(1)">❯</a>
+      </div>
       <h3>{{ project.user.username }}</h3>
       <h3>{{ project.user.role }}</h3>
-
       <div class="">
-        <button class="primary">
-          <a href="{{ url_for('show_project', user_id=project.user.id, project_id=project.id) }}">SHOW</a>
-        </button>
-        <button class="primary">
-          <a href="{{ url_for('profile', user_id=project.user.id) }}">Profile</a>
-        </button>
+         <button class="primary">
+         <a href="{{ url_for('show_project', user_id=project.user.id, project_id=project.id) }}">SHOW</a>
+         </button>
+         <button class="primary">
+         <a href="{{ url_for('profile', user_id=project.user.id) }}">Profile</a>
+         </button>
       </div>
-
       <div class="skills">
-        <h2>Project Info</h2>
-        <h3>{{ project.name }}</h3>
-        <a href="{{ project.github_link }}">Github -- </a>
-        <a href="{{ project.demo_link }}">Demo</a>
-
-        <div class="para">
-          <h4>Description:</h4>
-          {{ project.description[:200] }}
-          ...<a href="{{ url_for('show_project', user_id=project.user.id, project_id=project.id) }}">See More</a>
-        </div>
-
-        <h4>Tech Stack</h4>
-        <ul>
-          {% for tag in project.tags %}
-            <li>{{ tag.name }}</li>
-          {% endfor %}
-        </ul>
+         <h2>Project Info</h2>
+         <h3>{{ project.name }}</h3>
+         <a href="{{ project.github_link }}">Github -- </a>
+         <a href="{{ project.demo_link }}">Demo</a>
+         <div class="para">
+            <h4>Description:</h4>
+            {{ project.description[:200] }}
+            ...<a href="{{ url_for('show_project', user_id=project.user.id, project_id=project.id) }}">See More</a>
+         </div>
+         <h4>Tech Stack</h4>
+         <ul>
+            {% for tag in project.tags %}
+            <li><a href="{{ url_for('projects', tags=tag.name) }}">{{ tag.name }}</a></li>
+            {% endfor %}
+         </ul>
       </div>
-    </div>
-  </div>
+   </div>
+</div>
 {% endfor %}
-
 {% endblock content %}
