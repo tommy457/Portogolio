@@ -23,18 +23,10 @@ def save_picture(form_picture, path, prev=None):
         if path == "images":
             output_size = (134, 134)
         elif path == "project_images":
-            output_size = (900, 900)
+            output_size = (900, 600)
 
         i = Image.open(form_picture)
         i.thumbnail(output_size)
         i.save(picture_path)
         print("saved")
         return picture_fn
-
-
-def format_skills(data):
-    """helper function for formatting text"""
-    skills = data
-    print(skills.split())
-    skills_list = [skill.strip() for skill in skills.split(',')]
-    return skills_list

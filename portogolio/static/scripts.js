@@ -1,15 +1,21 @@
 function readURL(input) {
     if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            // Get the parent div of the input field
+            var parentDiv = input.closest('.project-image');
 
-      var reader = new FileReader();
-      reader.onload = function (e) {
-        document.querySelector("#output").setAttribute("src",e.target.result);
-      };
+            // Get the corresponding output element within the same parent div
+            var outputElement = parentDiv.querySelector('img');
 
-      reader.readAsDataURL(input.files[0]);
+            // Set the src attribute of the output element
+            outputElement.setAttribute("src", e.target.result);
+        };
+
+        reader.readAsDataURL(input.files[0]);
     }
-  }
-  document.addEventListener('DOMContentLoaded', function() {
+}
+document.addEventListener('DOMContentLoaded', function() {
     var skillsList = document.getElementById('skillsList');
     var dropdownButton = document.getElementById('techSkillsDropdown');
     var dropdownMenu = document.getElementById('techSkillsDropdownMenu');
@@ -86,4 +92,42 @@ function readURL(input) {
         }
     });
 });
+document.addEventListener("DOMContentLoaded", function () {
+    let slideshows = document.getElementsByClassName("slideshow-container");
 
+    for (let i = 0; i < slideshows.length; i++) {
+      createSlideshow(i);
+    }
+
+    function createSlideshow(index) {
+      let slideIndex = 0;
+      showSlides(index, slideIndex);
+
+      function plusSlides(n) {
+        showSlides(index, slideIndex + n);
+      }
+
+      function showSlides(index, n) {
+        let slides = slideshows[index].getElementsByClassName('mySlides');
+
+        for (let i = 0; i < slides.length; i++) {
+          slides[i].style.display = 'none';
+        }
+
+        slideIndex = (n + slides.length) % slides.length;
+        slides[slideIndex].style.display = 'block';
+      }
+
+      // Set up event listeners for next and previous buttons
+      let nextBtn = slideshows[index].getElementsByClassName("next")[0];
+      let prevBtn = slideshows[index].getElementsByClassName("prev")[0];
+
+      nextBtn.addEventListener("click", function () {
+        plusSlides(1);
+      });
+
+      prevBtn.addEventListener("click", function () {
+        plusSlides(-1);
+      });
+    }
+  });

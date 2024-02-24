@@ -116,8 +116,13 @@ class ProjectCreateForm(FlaskForm):
                            validators=[Optional(), URL()])
     description = TextAreaField('Description',
                         validators=[DataRequired(), Length(min=2, max=2000)])
-    background_image = FileField('Background image',
+    background_image = FileField('System Design image',
                                  validators=[FileAllowed(['jpg', 'png'])])
+    db_image = FileField('Database image',
+                            validators=[FileAllowed(['jpg', 'png'])])
+    infra_image = FileField('Infrastructure image',
+                                 validators=[FileAllowed(['jpg', 'png'])])
+
     tech_skills = CustomSelectMultipleField('Tech Stack',
                                     coerce=str,
                                     choices=[])

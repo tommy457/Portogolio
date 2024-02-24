@@ -7,14 +7,34 @@
 <form class="form-project form-update" method="POST" action="" enctype="multipart/form-data">
     {{ form.hidden_tag() }}
     <div class="project-image">
-        {{ form.background_image(class='', type='file', accept='image/*',  onchange="readURL(this)") }}
+        <label for="backgroundImageInput" class="file-input-label">Upload System Design Image</label>
+        {{ form.background_image(id='backgroundImageInput', class='file-input', type='file', accept='image/*', onchange="readURL(this)") }}
+        {% if not project %}
+        <img class="output-image" src="{{ url_for('static', filename='project_images/default.png') }}" width="900" alt="nONE"/>
+        {% else %}
+        <img class="output-image" src="{{ url_for('static', filename='project_images/' + project.background_image) }}" width="900" alt="nONE"/>
+        {% endif %}
     </div>
-    {% if not project %}
-        <img src="{{ url_for('static', filename='project_images/default.png') }}" id="output" width="900" alt="nONE"/>
-    {% else %}
-        <img src="{{ url_for('static', filename='project_images/' + project.background_image) }}" id="output" width="900" alt="nONE"/>
+    <div class="project-image">
+        <label for="backgroundImageInput" class="file-input-label">Upload Database Image</label>
+        {{ form.db_image(id='backgroundImageInput', class='file-input', accept='image/*', onchange="readURL(this)") }}
+        {% if not project %}
+        <img class="output-image" src="{{ url_for('static', filename='project_images/default.png') }}" width="900" alt="nONE"/>
+        {% else %}
+        <img class="output-image" src="{{ url_for('static', filename='project_images/' + project.db_image) }}" width="900" alt="nONE"/>
+        {% endif %}
+    </div>
+    <div class="project-image">
+        <label for="backgroundImageInput" class="file-input-label">Upload Infra Image</label>
+        {{ form.infra_image(id='backgroundImageInput', class='file-input', accept='image/*', onchange="readURL(this)") }}
+        {% if not project %}
+        <img class="output-image" src="{{ url_for('static', filename='project_images/default.png') }}" width="900" alt="nONE"/>
+        {% else %}
+        <img class="output-image" src="{{ url_for('static', filename='project_images/' + project.infra_image) }}" width="900" alt="nONE"/>
+        {% endif %}
 
-    {% endif %}
+    </div>
+
     <label>
         {{ form.name(class="input") }}
         <span>Title</span>
@@ -73,8 +93,16 @@
 {% else %}
 <div class="developers">
     <div class="project-display">
-        <img class="flat" src="{{ url_for('static', filename='project_images/' + project.background_image) }}" alt="user" />
-        <div class="skills">
+        <div class="slideshow-container">
+            {% for image in [project.infra_image, project.background_image, project.db_image] %}
+              <div class="mySlides">
+                <img class="flat" src="{{ url_for('static', filename='project_images/' + image) }}" alt="user" />
+              </div>
+            {% endfor %}
+
+            <a class="prev" onclick="plusSlides{{ 0 }}(-1)">❮</a>
+            <a class="next" onclick="plusSlides{{ 0 }}(1)">❯</a>
+        </div>        <div class="skills">
             <h3>{{ project.name }}</h3>
             <a href="{{ project.github_link }}">Github -- </a>
             <a href="{{ project.demo_link }}">Demo</a>
@@ -97,7 +125,7 @@
             <div class="comment-author">
                 <a href="{{ url_for('profile', user_id=comment.user.id) }}" >@{{ comment.user.username }}</a>
             </div>
-            <div class="comment-date">{{ comment.user.created_at }}</div>
+            <div class="comment-date">{{ comment.created_at }}</div>
             <div class="comment-text">
                 {{ comment.body }}
             </div>

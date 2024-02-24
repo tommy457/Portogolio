@@ -2,7 +2,7 @@
 """This module defines a class User"""
 from models.base_model import BaseModel, Base
 from sqlalchemy.orm import relationship
-from sqlalchemy import String, Column, Text, ForeignKey, Table, JSON
+from sqlalchemy import String, Column, Text, ForeignKey, Table
 from models.tags import Tag
 
 
@@ -25,6 +25,14 @@ class Project(BaseModel, Base):
     name = Column(String(128))
     description = Column(Text(2000))
     background_image = Column(
+        String(20),
+        nullable=False,
+        default="default.png")
+    db_image = Column(
+        String(20),
+        nullable=False,
+        default="default.png")
+    infra_image = Column(
         String(20),
         nullable=False,
         default="default.png")
