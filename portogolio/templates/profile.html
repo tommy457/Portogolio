@@ -111,7 +111,16 @@
 <div class="developers">
     {% for project in projects %}
     <div class="project-container">
-        <img class="flat" src="{{ url_for('static', filename='project_images/' + project.background_image) }}" alt="user" />
+        <div class="slideshow-container">
+            {% for image in [project.infra_image, project.background_image, project.db_image] %}
+              <div class="mySlides">
+                <img class="flat" src="{{ url_for('static', filename='project_images/' + image) }}" alt="user" />
+              </div>
+            {% endfor %}
+
+            <a class="prev" onclick="plusSlides{{ loop.index }}(-1)">❮</a>
+            <a class="next" onclick="plusSlides{{ loop.index }}(1)">❯</a>
+        </div>
         <div class="skills">
             <h3>{{ project.name }}</h3>
             <div class="para">

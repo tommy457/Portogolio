@@ -16,7 +16,7 @@ from models.projects import Project
 from models.user import User
 from models.tags import Tag
 
-from models.utils import save_picture, format_skills
+from models.utils import save_picture
 from portogolio import app, login_manager
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -167,11 +167,26 @@ def create_project(user_id):
             tags = storage.get_tags(form.tech_skills.data)
             project.tags.extend(tags)
 
+            # save new image and return it's path
+            # same for db_image and infra_image
             if form.background_image.data:
                 picture_file = save_picture(form.background_image.data,
                                             "project_images",
                                             prev=project.background_image)
                 project.background_image = picture_file
+
+            if form.db_image.data:
+                db_image = save_picture(form.db_image.data,
+                                            "project_images",
+                                            prev=project.db_image)
+                project.background_image = db_image
+
+            if form.infra_image.data:
+                infra_image = save_picture(form.infra_image.data,
+                                            "project_images",
+                                            prev=project.infra_image)
+                project.infra_image = infra_image
+
             storage.new(project)
 
             storage.save()
@@ -233,12 +248,28 @@ def edit_project(user_id, project_id):
         form.populate_tech_skills()
 
         if form.validate_on_submit():
+            # update and remove previous image and save new image
+            # return the path to the saved image
+            # same for db_image and infra_image
             if form.background_image.data:
                 picture_file = save_picture(form.background_image.data,
                                             "project_images",
                                             prev=project.background_image)
             else:
                 picture_file = project.background_image
+
+            if form.db_image.data:
+                db_image = save_picture(form.db_image.data,
+                                            "project_images",
+                                            prev=project.db_image)
+            else:
+                db_image = project.db_image
+            if form.infra_image.data:
+                infra_image = save_picture(form.infra_image.data,
+                                            "project_images",
+                                            prev=project.infra_image)
+            else:
+                infra_image = project.infra_image
             tags = storage.get_tags(form.tech_skills.data)
             project.tags.clear()
 
@@ -248,11 +279,15 @@ def edit_project(user_id, project_id):
             project.github_link = form.github_link.data
             project.demo_link = form.demo_link.data
             project.background_image = picture_file
+            project.db_image = db_image
+            project.infra_image = infra_image
+
             storage.save()
             return redirect(url_for("show_project",
                                     user_id=user_id,
                                     project_id=project_id,
                                     ))
+        #show current project info if it's not a POST request
         elif request.method == "GET":
             form.name.data = project.name
             form.description.data = project.description
@@ -260,6 +295,9 @@ def edit_project(user_id, project_id):
             form.demo_link.data = project.demo_link
             form.tech_skills.data = project.tags
             picture_file = project.background_image
+            db_image = project.db_image
+            infra_image = project.infra_image
+
 
             print(project.tags)
 
@@ -280,7 +318,11 @@ def delete_project(user_id, project_id):
     profile = storage.get_by_fk(Profile, user_id)
     project = storage.get(Project, project_id)
     if current_user.is_authenticated and current_user.id == profile.user_id:
+        #clean up project images before project is deleted
         save_picture(None ,"project_images", project.background_image)
+        save_picture(None ,"project_images", project.db_image)
+        save_picture(None ,"project_images", project.infra_image)
+
         storage.delete(project)
         storage.save()
         return redirect(url_for("profile", user_id=user_id))
