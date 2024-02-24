@@ -11,20 +11,25 @@ from models.comment import Comment
 from models.tags import Tag
 import models
 
-classes = {"User": User, "Profile": Profile, "Project": Project, "Tag":Tag}
+classes = {"User": User, "Profile": Profile, "Project": Project, "Tag": Tag}
 
 
 class DBStorage:
     """This class manages storage of hbnb models in MySQL database"""
+
     __engine = None
     __session = None
 
     def __init__(self):
-        self.__engine = create_engine('mysql+mysqldb://{}:{}@{}/{}'.format(
-            os.environ.get("PORTOGOLIO_MYSQL_USER"),
-            os.environ.get("PORTOGOLIO__MYSQL_PWD"),
-            os.environ.get("PORTOGOLIO__MYSQL_HOST", default="localhost"),
-            os.environ.get("PORTOGOLIO__MYSQL_DB")), pool_pre_ping=True)
+        self.__engine = create_engine(
+            "mysql+mysqldb://{}:{}@{}/{}".format(
+                os.environ.get("PORTOGOLIO_MYSQL_USER"),
+                os.environ.get("PORTOGOLIO__MYSQL_PWD"),
+                os.environ.get("PORTOGOLIO__MYSQL_HOST", default="localhost"),
+                os.environ.get("PORTOGOLIO__MYSQL_DB"),
+            ),
+            pool_pre_ping=True,
+        )
 
     def all(self, cls=None):
         """Returns a dictionary of objects of one type of cls"""
@@ -41,7 +46,8 @@ class DBStorage:
 
                 for obj in results:
                     results_dict["{}.{}".format(
-                        type(obj).__name__, obj.id)] = obj
+                        type(obj).__name__,
+                        obj.id)] = obj
         return results_dict
 
     def new(self, obj):
@@ -58,10 +64,11 @@ class DBStorage:
             self.__session.delete(obj)
 
     def reload(self):
-        """Creates all tables in the session in the database """
+        """Creates all tables in the session in the database"""
         Base.metadata.create_all(self.__engine)
         session_factory = sessionmaker(
-            bind=self.__engine, expire_on_commit=False)
+            bind=self.__engine,
+            expire_on_commit=False)
         Session = scoped_session(session_factory)
         self.__session = Session()
 
@@ -88,8 +95,8 @@ class DBStorage:
         if cls not in classes.values():
             return None
 
-        result = self.__session.query(User).filter_by(
-            username=username).first()
+        result = self.__session.query(User).\
+            filter_by(username=username).first()
         return result
 
     def get(self, cls, id):
@@ -102,7 +109,7 @@ class DBStorage:
 
         all_cls = models.storage.all(cls)
         for value in all_cls.values():
-            if (value.id == id):
+            if value.id == id:
                 return value
 
         return None
@@ -117,7 +124,7 @@ class DBStorage:
 
         all_cls = models.storage.all(cls)
         for value in all_cls.values():
-            if (value.user_id == fk_id):
+            if value.user_id == fk_id:
                 return value
         return None
 
@@ -126,9 +133,12 @@ class DBStorage:
         Returns the comment object based on the user_id and project_id, or
         None if not found
         """
-        comments = self.__session.query(Comment).\
-            filter_by(project_id=project_id).\
-                order_by(Comment.created_at.desc()).all()
+        comments = (
+            self.__session.query(Comment)
+            .filter_by(project_id=project_id)
+            .order_by(Comment.created_at.desc())
+            .all()
+        )
         return comments
 
     def get_tags(self, tag_names):
@@ -137,3 +147,15 @@ class DBStorage:
         """
         tags = self.__session.query(Tag).filter(Tag.name.in_(tag_names)).all()
         return tags
+
+    def filter_projects(self, tags):
+        """
+        Returns collection of project instances depending on the tags
+        """
+        projects = (
+            self.__session.query(Project)
+            .filter(Project.tags.any(Tag.name.in_(tags)))
+            .all()
+        )
+
+        return projects

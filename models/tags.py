@@ -6,5 +6,6 @@ from sqlalchemy import String, Column
 
 class Tag(BaseModel, Base):
     """This class defines a user by attributes"""
-    __tablename__ = 'tags'
+
+    __tablename__ = "tags"
     name = Column(String(20), nullable=False, unique=True)

@@ -6,5 +6,6 @@ from sqlalchemy import String, Column, ForeignKey
 
 class Profile(BaseModel, Base):
     """This class defines a user by attributes"""
-    __tablename__ = 'profiles'
+
+    __tablename__ = "profiles"
     user_id = Column(String(60), ForeignKey("users.id"), nullable=False)

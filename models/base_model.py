@@ -11,6 +11,7 @@ Base = declarative_base()
 
 class BaseModel:
     """A base class for all hbnb models"""
+
     id = Column(String(60), primary_key=True, nullable=False)
     created_at = Column(DateTime, nullable=False, default=datetime.utcnow())
     updated_at = Column(DateTime, nullable=False, default=datetime.utcnow())
@@ -36,7 +37,7 @@ class BaseModel:
 
     def __str__(self):
         """Returns a string representation of the instance"""
-        cls = (str(type(self)).split(".")[-1]).split("\'")[0]
+        cls = (str(type(self)).split(".")[-1]).split("'")[0]
         return "[{}] ({}) {}".format(cls, self.id, self.__dict__)
 
     def save(self):
@@ -49,15 +50,16 @@ class BaseModel:
         """Convert instance into dict format"""
         dictionary = {}
         dictionary.update(self.__dict__)
-        dictionary.update({'__class__':
-                          (str(type(self)).split('.')[-1]).split('\'')[0]})
-        dictionary['created_at'] = self.created_at.isoformat()
-        dictionary['updated_at'] = self.updated_at.isoformat()
-        if dictionary['_sa_instance_state']:
-            del dictionary['_sa_instance_state']
+        dictionary.update({"__class__": (str(type(self)).
+                                         split(".")[-1]).split("'")[0]})
+        dictionary["created_at"] = self.created_at.isoformat()
+        dictionary["updated_at"] = self.updated_at.isoformat()
+        if dictionary["_sa_instance_state"]:
+            del dictionary["_sa_instance_state"]
         return dictionary
 
     def delete(self):
         """Delete the current instance from the storage"""
         from models import storage
+
         storage.delete(self)

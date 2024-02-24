@@ -1,186 +1,169 @@
 {% extends "index.html" %}
-
 {% block content %}
 <div class="{{ cll_2 }}">
-    <div class="{{ cll_1 }}">
-        <img class="round" src="{{ url_for('static', filename='images/' + user.profile_pic) }}" alt=""/>
-        <h3>{{ user.username }}</h3>
-        <h6>{{ user.country }}</h6>
-        <p>{{ user.role }}</p>
-        <div>
-
-            <button class="primary">
-                <a href="#info" >Contact</a>
-            </button>
-            {% if is_authorized %}
-            <button class="primary">
-                <a href="{{ url_for('profile', user_id=user.id + '/create_project') }}" >New Project</a>
-            </button>
-            {% endif %}
-
-        </div>
-    {% if is_authorized %}
-    </div>
-        <form class="info-form" method="POST" action="" enctype="multipart/form-data">
-            <p class="title">Profile Info </p>
-            {{ form.hidden_tag() }}
-            <label>
-                {{ form.username(class="input") }}
-                <span>Username</span>
-                {% if form.username.errors %}
-                <p class="error">{{ form.username.errors[0] }}</p>
-                {% endif %}
-            </label>
-            <label>
-                {{ form.email(class="input") }}
-                <span>Email</span>
-                {% if form.email.errors %}
-                <p class="error">{{ form.email.errors[0] }}</p>
-                {% endif %}
-            </label>
-            <label>
-                {{ form.country(class="input") }}
-                <span>country</span>
-                {% if form.country.errors %}
-                <p class="error">{{ form.country.errors[0] }}</p>
-                {% endif %}
-            </label>
-            <label>
-                {{ form.github(class="input") }}
-                <span>Github</span>
-                {% if form.github.errors %}
-                <p class="error">{{ form.github.errors[0] }}</p>
-                {% endif %}
-            </label>
-            <label>
-                {{ form.linkedin(class="input") }}
-                <span>Linkedin</span>
-                {% if form.linkedin.errors %}
-                <p class="error">{{ form.linkedin.errors[0] }}</p>
-                {% endif %}
-            </label>
-            <label>
-                {{ form.role(class="input") }}
-                <span>Role</span>
-                {% if form.role.errors %}
-                <p class="error">{{ form.role.errors[0] }}</p>
-                {% endif %}
-            </label>
-            <div class="amenities">
-                <div class="dropdown">
-                    <button class="dropdown-toggle " id="techSkillsDropdown">Select Tech Skills</button>
-                    <div class="dropdown-menu" id="techSkillsDropdownMenu">
-                        {% for value, label in form.tech_skills.choices %}
-                            <div class="dropdown-item" data-value="{{ value }}">
-                                <input type="checkbox" class="skillCheckbox" name="tech_skills" value="{{ value }}"> {{ label }}
-                            </div>
-                        {% endfor %}
-                    </div>
-                </div>
+   <div class="{{ cll_1 }}">
+      <img class="round" src="{{ url_for('static', filename='images/' + user.profile_pic) }}" alt=""/>
+      <h3>{{ user.username }}</h3>
+      <h6>{{ user.country }}</h6>
+      <p>{{ user.role }}</p>
+      <div>
+         <button class="primary">
+         <a href="#info" >Contact</a>
+         </button>
+         {% if is_authorized %}
+         <button class="primary">
+         <a href="{{ url_for('profile', user_id=user.id + '/create_project') }}" >New Project</a>
+         </button>
+         {% endif %}
+      </div>
+      {% if is_authorized %}
+   </div>
+   <form class="info-form" method="POST" action="" enctype="multipart/form-data">
+      <p class="title">Profile Info </p>
+      {{ form.hidden_tag() }}
+      <label>
+         {{ form.username(class="input") }}
+         <span>Username</span>
+         {% if form.username.errors %}
+         <p class="error">{{ form.username.errors[0] }}</p>
+         {% endif %}
+      </label>
+      <label>
+         {{ form.email(class="input") }}
+         <span>Email</span>
+         {% if form.email.errors %}
+         <p class="error">{{ form.email.errors[0] }}</p>
+         {% endif %}
+      </label>
+      <label>
+         {{ form.country(class="input") }}
+         <span>country</span>
+         {% if form.country.errors %}
+         <p class="error">{{ form.country.errors[0] }}</p>
+         {% endif %}
+      </label>
+      <label>
+         {{ form.github(class="input") }}
+         <span>Github</span>
+         {% if form.github.errors %}
+         <p class="error">{{ form.github.errors[0] }}</p>
+         {% endif %}
+      </label>
+      <label>
+         {{ form.linkedin(class="input") }}
+         <span>Linkedin</span>
+         {% if form.linkedin.errors %}
+         <p class="error">{{ form.linkedin.errors[0] }}</p>
+         {% endif %}
+      </label>
+      <label>
+         {{ form.role(class="input") }}
+         <span>Role</span>
+         {% if form.role.errors %}
+         <p class="error">{{ form.role.errors[0] }}</p>
+         {% endif %}
+      </label>
+      <div class="amenities">
+         <div class="dropdown">
+            <button class="dropdown-toggle " id="techSkillsDropdown">Select Tech Skills</button>
+            <div class="dropdown-menu" id="techSkillsDropdownMenu">
+               {% for value, label in form.tech_skills.choices %}
+               <div class="dropdown-item" data-value="{{ value }}">
+                  <input type="checkbox" class="skillCheckbox" name="tech_skills" value="{{ value }}"> {{ label }}
+               </div>
+               {% endfor %}
             </div>
-
-
-            <label>
-                <span>Profile pic</span>
-
-                {{ form.profile_pic(class="input", type='file', accept='image/*') }}
-                {% if form.profile_pic.errors %}
-                <p class="error">{{ form.profile_pic.errors[0] }}</p>
-                {% endif %}
-            </label>
-
-
-            {% if form.tech_skills.errors %}
-            <p class="error">{{ form.tech_skills.errors[0] }}</p>
-            {% endif %}
-
-            {{ form.submit(class="submit") }}
-        </form>
-    </div>
+         </div>
+      </div>
+      <label>
+         <span>Profile pic</span>
+         {{ form.profile_pic(class="input", type='file', accept='image/*') }}
+         {% if form.profile_pic.errors %}
+         <p class="error">{{ form.profile_pic.errors[0] }}</p>
+         {% endif %}
+      </label>
+      {% if form.tech_skills.errors %}
+      <p class="error">{{ form.tech_skills.errors[0] }}</p>
+      {% endif %}
+      {{ form.submit(class="submit") }}
+   </form>
+</div>
 {% endif %}
 <div class="skills">
-    <h3>Skills</h3>
-    <ul id="skillsList">
-        {% for tag in user.tags %}
-        <li>{{ tag.name }}</li>
-        {% endfor %}
-    </ul>
+   <h3>Skills</h3>
+   <ul id="skillsList">
+      {% for tag in user.tags %}
+      <li><a href="{{ url_for('projects', tags=tag.name) }}">{{ tag.name }}</a></li>
+      {% endfor %}
+   </ul>
 </div>
 <h1 class="developers">{{ user.username }}'s Projects</h1>
-
 <div class="developers">
-    {% for project in projects %}
-    <div class="project-container">
-        <div class="slideshow-container">
-            {% for image in [project.infra_image, project.background_image, project.db_image] %}
-              <div class="mySlides">
-                <img class="flat" src="{{ url_for('static', filename='project_images/' + image) }}" alt="user" />
-              </div>
+   {% for project in projects %}
+   <div class="project-container">
+      <div class="slideshow-container">
+         {% for image in [project.infra_image, project.background_image, project.db_image] %}
+         <div class="mySlides">
+            <img class="flat" src="{{ url_for('static', filename='project_images/' + image) }}" alt="user" />
+         </div>
+         {% endfor %}
+         <a class="prev" onclick="plusSlides{{ loop.index }}(-1)">❮</a>
+         <a class="next" onclick="plusSlides{{ loop.index }}(1)">❯</a>
+      </div>
+      <div class="skills">
+         <h3>{{ project.name }}</h3>
+         <div class="para">
+            <p>{{ project.description[:200] }}
+               ...<a href="{{ url_for('show_project', user_id=user.id, project_id=project.id ) }}" >See More</a>
+            </p>
+         </div>
+         <h4>Tech Stack</h4>
+         <ul>
+            {% for tag in project.tags %}
+            <li><a href="{{ url_for('projects', tags=tag.name) }}">{{ tag.name }}</a></li>
             {% endfor %}
-
-            <a class="prev" onclick="plusSlides{{ loop.index }}(-1)">❮</a>
-            <a class="next" onclick="plusSlides{{ loop.index }}(1)">❯</a>
-        </div>
-        <div class="skills">
-            <h3>{{ project.name }}</h3>
-            <div class="para">
-                <p>{{ project.description[:200] }}
-                    ...<a href="{{ url_for('show_project', user_id=user.id, project_id=project.id ) }}" >See More</a>
-                </p>
+         </ul>
+      </div>
+      <div class="buttons">
+         <button class="primary">
+         <a href="{{ url_for('show_project', user_id=user.id, project_id=project.id ) }}" >SHOW</a>
+         </button>
+         {% if is_authorized %}
+         <button class="primary-edit">
+         <a href="{{ url_for('edit_project', user_id=user.id, project_id=project.id ) }}" >EDIT</a>
+         </button>
+         <button class="primary">
+         <a class="primary" href="#confirmDeleteModal">Delete</a>
+         </button>
+         <div class="modal" id="confirmDeleteModal">
+            <div class="modal-content">
+               <div class="modal-header">
+                  <h2>Confirm Deletion</h2>
+               </div>
+               <div class="modal-body">
+                  <p>Are you sure you want to delete {{ project.name }}?</p>
+               </div>
+               <div class="modal-footer">
+                  <button class="primary" id="cancelButton"><a href="#">Cancel</a></button>
+                  <button class="primary" id="confirmDelete"><a href="{{ url_for('delete_project', user_id=user.id, project_id=project.id ) }}">Delete</a></button>
+               </div>
             </div>
-            <h4>Tech Stack</h4>
-            <ul>
-                {% for tag in project.tags %}
-                <li>{{ tag.name }}</li>
-                {% endfor %}
-            </ul>
-        </div>
-        <div class="buttons">
-            <button class="primary">
-                <a href="{{ url_for('show_project', user_id=user.id, project_id=project.id ) }}" >SHOW</a>
-            </button>
-            {% if is_authorized %}
-            <button class="primary-edit">
-                <a href="{{ url_for('edit_project', user_id=user.id, project_id=project.id ) }}" >EDIT</a>
-            </button>
-            <button class="primary">
-                <a class="primary" href="#confirmDeleteModal">Delete</a>
-            </button>
-
-            <div class="modal" id="confirmDeleteModal">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h2>Confirm Deletion</h2>
-                    </div>
-                    <div class="modal-body">
-                        <p>Are you sure you want to delete {{ project.name }}?</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button class="primary" id="cancelButton"><a href="#">Cancel</a></button>
-                        <button class="primary" id="confirmDelete"><a href="{{ url_for('delete_project', user_id=user.id, project_id=project.id ) }}">Delete</a></button>
-                    </div>
-                </div>
-            </div>
-            {% endif %}
-        </div>
-    </div>
-    {% endfor %}
+         </div>
+         {% endif %}
+      </div>
+   </div>
+   {% endfor %}
 </div>
 <footer id='info'>
-    <div class="footer-section contact-section">
-        <h3>Contact Developer:</h3>
-        <p>Email: {{ user.email }}</p>
-        <p>Based in : {{ user.country }}</p>
-    </div>
-
-    <div class="footer-section social-section">
-        <h3>Socials</h3>
-        <a href="{{ user.github }}" >Github</a>
-        <a href="{{ user.linkedin }}" >LinkedIn</a>
-    </div>
-
-
-
+   <div class="footer-section contact-section">
+      <h3>Contact Developer:</h3>
+      <p>Email: {{ user.email }}</p>
+      <p>Based in : {{ user.country }}</p>
+   </div>
+   <div class="footer-section social-section">
+      <h3>Socials</h3>
+      <a href="{{ user.github }}" >Github</a>
+      <a href="{{ user.linkedin }}" >LinkedIn</a>
+   </div>
 </footer>
-
 {% endblock content %}

@@ -1,27 +1,26 @@
 {% extends "index.html" %}
-
 {% block content %}
 <div class="developers">
-    {% for user in users %}
-    <div class="card-container">
-        <img class="round" src="{{ url_for('static', filename='images/' + user.profile_pic) }}" alt="user" />
-        <h3>{{ user.username }}</h3>
-        <h6>{{ user.country }}</h6>
-        <p>{{ user.role }}</p>
-        <div>
-            <button class="primary">
-                <a href="{{ url_for('profile', user_id=user.id ) }}" >Profile</a>
-            </button>
-        </div>
-        <div class="skills">
-            <h3>Skills</h3>
-            <ul>
-                {% for tag in user.tags %}
-                <li>{{ tag.name }}</li>
-                {% endfor %}
-            </ul>
-        </div>
-    </div>
-    {% endfor %}
+   {% for user in users %}
+   <div class="card-container">
+      <img class="round" src="{{ url_for('static', filename='images/' + user.profile_pic) }}" alt="user" />
+      <h3>{{ user.username }}</h3>
+      <h6>{{ user.country }}</h6>
+      <p>{{ user.role }}</p>
+      <div>
+         <button class="primary">
+         <a href="{{ url_for('profile', user_id=user.id ) }}" >Profile</a>
+         </button>
+      </div>
+      <div class="skills">
+         <h3>Skills</h3>
+         <ul>
+            {% for tag in user.tags %}
+            <li><a href="{{ url_for('projects', tags=tag.name) }}">{{ tag.name }}</a></li>
+            {% endfor %}
+         </ul>
+      </div>
+   </div>
+   {% endfor %}
 </div>
 {% endblock content %}
