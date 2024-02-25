@@ -104,7 +104,7 @@
       <div class="slideshow-container">
          {% for image in [project.infra_image, project.background_image, project.db_image] %}
          <div class="mySlides">
-            <img class="flat" src="{{ url_for('static', filename='project_images/' + image) }}" alt="user" />
+            <img src="{{ url_for('static', filename='project_images/' + image) }}" alt="user" />
          </div>
          {% endfor %}
          <a class="prev" onclick="plusSlides{{ loop.index }}(-1)">❮</a>

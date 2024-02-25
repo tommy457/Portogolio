@@ -607,11 +607,6 @@ button.primary-edit {
   font-size: 20px;
 }
 
-.projects {
-  display: flex;
-  flex-direction: column;
-}
-
 .skills a {
   color: #ffffff;
   font-size: 18.5px;
@@ -840,4 +835,50 @@ button.primary-edit {
   color: white;
   border: 1px solid #4f537b;
   cursor: pointer;
+}
+
+.pagination-bar {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.pagination {
+  display: inline-block;
+  list-style: none;
+  padding: 0;
+}
+
+.pagination li {
+  display: inline;
+  margin: 0 5px;
+}
+
+.pagination-button {
+  background-color: #426e8d;;
+  padding: 10px 15px;
+  border: 1px solid #ccc;
+  text-decoration: none;
+  color: #ffffff;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.pagination-button:hover {
+  background-color: #658ca8;
+}
+
+.pagination-page-info {
+  padding: .6em;
+  padding-left: 0;
+  width: 40em;
+  margin: .5em;
+  margin-left: 0;
+  font-size: 12px;
+}
+.pagination-page-info b {
+  color: black;
+  background: #6aa6ed;
+  padding-left: 2px;
+  padding: .1em .25em;
+  font-size: 150%;
 }
