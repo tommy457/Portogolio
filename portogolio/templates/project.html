@@ -88,7 +88,7 @@
       <div class="slideshow-container">
          {% for image in [project.infra_image, project.background_image, project.db_image] %}
          <div class="mySlides">
-            <img class="flat" src="{{ url_for('static', filename='project_images/' + image) }}" alt="user" />
+            <img class="" src="{{ url_for('static', filename='project_images/' + image) }}" alt="user" />
          </div>
          {% endfor %}
          <a class="prev" onclick="plusSlides{{ 0 }}(-1)">❮</a>
@@ -115,7 +115,8 @@
    {% for comment in comments %}
    <div class="comment">
       <div class="comment-author">
-         <a href="{{ url_for('profile', user_id=comment.user.id) }}" >@{{ comment.user.username }}</a>
+         <a href="{{ url_for('profile', user_id=comment.user.id) }}" >
+            @{{ comment.user.username }}</a>
       </div>
       <div class="comment-date">{{ comment.created_at }}</div>
       <div class="comment-text">

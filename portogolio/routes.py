@@ -18,8 +18,8 @@ from models.profile import Profile
 from models.projects import Project
 from models.user import User
 from models.tags import Tag
-
-from models.utils import save_picture
+from flask_paginate import Pagination
+from models.utils import save_picture, paginate_query
 from portogolio import app, login_manager
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -156,16 +156,32 @@ def projects():
     """renders projects page"""
     form = SeachForm()
     form.populate_tech_skills()
-    projects = storage.all(Project).values()
+    page_number = int(request.args.get('page_number', 1))
     tags = request.args.get("tags")
+    query, project_count = storage.get_query(Project)
 
     if form.validate_on_submit():
         if form.tags.data:
-            projects = storage.filter_projects(form.tags.data)
+            query, project_count = storage.filter_projects(form.tags.data)
+            tags = form.tags.data
     elif tags:
-        projects = storage.filter_projects([tags])
+        query, project_count = storage.filter_projects([tags])
 
-    return render_template("projects.html", projects=projects, form=form)
+    projects, total_pages, page_size = paginate_query(query,
+                                                      page_number,
+                                                      project_count)
+    if page_number > total_pages:
+        page_number = 1
+    return render_template(
+        "projects.html",
+        projects=projects,
+        form=form,
+        page_number=page_number,
+        total_pages=total_pages,
+        project_count=project_count,
+        page_size=page_size,
+        tags=tags,
+        )
 
 
 @app.route(

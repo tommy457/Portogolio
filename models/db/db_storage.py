@@ -152,10 +152,16 @@ class DBStorage:
         """
         Returns collection of project instances depending on the tags
         """
-        projects = (
+        query = (
             self.__session.query(Project)
             .filter(Project.tags.any(Tag.name.in_(tags)))
-            .all()
+            .order_by(Project.created_at.desc())
         )
 
-        return projects
+        return query, query.count()
+
+    def get_query(self, cls):
+        """Return a Query object and the number of instances"""
+        if cls:
+            query = self.__session.query(cls).order_by(cls.created_at.desc())
+            return query, query.count()

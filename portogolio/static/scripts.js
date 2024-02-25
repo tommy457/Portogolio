@@ -131,3 +131,8 @@ function readURL(input) {
        });
     }
  });
+ if (window.history.replaceState) {
+   // Modify the current URL to remove query parameters
+   var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname;
+   window.history.replaceState({path:newurl}, '', newurl);
+}

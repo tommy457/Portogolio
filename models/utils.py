@@ -9,6 +9,10 @@ import secrets
 
 
 def save_picture(form_picture, path, prev=None):
+    """
+    save new image to storage and return it's path or
+    delete an images if a new one is uploaded
+    """
     if prev and prev != "default.png":
         os.remove(
             path=os.path.join(current_app.root_path,
@@ -33,3 +37,27 @@ def save_picture(form_picture, path, prev=None):
         i.save(picture_path)
         print("saved")
         return picture_fn
+
+
+def paginate_query(query, page_number, project_count):
+    """
+    Function that return list of instances result paginated or empty list
+    """
+    page_size = 5
+
+    totat_pages = (project_count // page_size) + (project_count % page_size)
+    if totat_pages == 0:
+        return [], totat_pages, page_size
+
+    if page_number < 1:
+        page_number = 1
+
+    if page_number > totat_pages:
+        page_number = totat_pages
+    if project_count <= page_size:
+        totat_pages = 1
+    print(page_number)
+    offset = (page_number - 1) * page_size
+    return (query.slice(offset, offset + page_size).all(),
+            totat_pages,
+            page_size)
