@@ -3,11 +3,11 @@
 ## Table of Contents
 
 1. [Introduction](#introduction)
-2. [Author](#author)
-3. [Features](#features)
-4. [Tech Stack](#tech-stack)
-5. [Installation](#installation)
-6. [Usage](#usage)
+2. [Features](#features)
+3. [Tech Stack](#tech-stack)
+4. [Installation](#installation)
+5. [Usage](#usage)[Author](#author)
+6. [Author](#author)
 7. [Contributing](#contributing)
 8. [Contact](#contact)
 
@@ -19,9 +19,6 @@ suited for their next projects or improve curent ones.
 [Live Demo](http://portogolio.boukhalfaml.tech/)
 [blog article](https://medium.com/@boukhalfaml1011/portogolio-a-platform-for-backend-engineers-9a1bdaec9aec).
 
-## Author
-
-- **Mohamed Lamine**: Full stack and DevOps
 
 ## Features
 
@@ -85,6 +82,10 @@ Follow these steps to get started with portogolio:
    - Navigate to the developers page and search for developers with same interests.
 
 ---
+
+## Author
+
+- **Mohamed Lamine Boukhalfa**: Full stack and DevOps
 
 ## Contributing
 

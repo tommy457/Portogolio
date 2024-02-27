@@ -8,7 +8,7 @@
       <label for="backgroundImageInput" class="file-input-label">Upload System Design Image</label>
       {{ form.background_image(id='backgroundImageInput', class='file-input', type='file', accept='image/*', onchange="readURL(this)") }}
       {% if not project %}
-      <img class="output-image" src="{{ url_for('static', filename='project_images/default.png') }}" width="900" alt="nONE"/>
+      <img class="output-image" src="{{ url_for('static', filename='project_images/default_systems.png') }}" width="900" alt="nONE"/>
       {% else %}
       <img class="output-image" src="{{ url_for('static', filename='project_images/' + project.background_image) }}" width="900" alt="nONE"/>
       {% endif %}
@@ -17,7 +17,7 @@
       <label for="backgroundImageInput" class="file-input-label">Upload Database Image</label>
       {{ form.db_image(id='backgroundImageInput', class='file-input', accept='image/*', onchange="readURL(this)") }}
       {% if not project %}
-      <img class="output-image" src="{{ url_for('static', filename='project_images/default.png') }}" width="900" alt="nONE"/>
+      <img class="output-image" src="{{ url_for('static', filename='project_images/default_database.png') }}" width="900" alt="nONE"/>
       {% else %}
       <img class="output-image" src="{{ url_for('static', filename='project_images/' + project.db_image) }}" width="900" alt="nONE"/>
       {% endif %}
@@ -26,7 +26,7 @@
       <label for="backgroundImageInput" class="file-input-label">Upload Infra Image</label>
       {{ form.infra_image(id='backgroundImageInput', class='file-input', accept='image/*', onchange="readURL(this)") }}
       {% if not project %}
-      <img class="output-image" src="{{ url_for('static', filename='project_images/default.png') }}" width="900" alt="nONE"/>
+      <img class="output-image" src="{{ url_for('static', filename='project_images/default_infra.png') }}" width="900" alt="nONE"/>
       {% else %}
       <img class="output-image" src="{{ url_for('static', filename='project_images/' + project.infra_image) }}" width="900" alt="nONE"/>
       {% endif %}

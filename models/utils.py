@@ -5,6 +5,7 @@ This module for helper functions
 from flask import current_app
 import os
 from PIL import Image
+import re
 import secrets
 
 
@@ -13,7 +14,7 @@ def save_picture(form_picture, path, prev=None):
     save new image to storage and return it's path or
     delete an images if a new one is uploaded
     """
-    if prev and prev != "default.png":
+    if prev and not re.match(r"default\w*", prev):
         os.remove(
             path=os.path.join(current_app.root_path,
                               "static/{}/{}".format(path, prev))

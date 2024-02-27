@@ -32,9 +32,9 @@ class Project(BaseModel, Base):
     description = Column(Text(2000))
     background_image = Column(String(20),
                               nullable=False,
-                              default="default.png")
-    db_image = Column(String(20), nullable=False, default="default.png")
-    infra_image = Column(String(20), nullable=False, default="default.png")
+                              default="default_systems.png")
+    db_image = Column(String(20), nullable=False, default="default_database.png")
+    infra_image = Column(String(20), nullable=False, default="default_infra.png")
     github_link = Column(String(128), nullable=False)
     demo_link = Column(String(128))
     tags = relationship("Tag", secondary=project_tag, viewonly=False)
